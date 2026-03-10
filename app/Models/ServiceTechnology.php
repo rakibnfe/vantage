@@ -18,6 +18,7 @@ class ServiceTechnology extends Model
         'url',
         'order',
     ];
+    protected $table = 'service_technologies';
 
     public function service(): BelongsTo
     {

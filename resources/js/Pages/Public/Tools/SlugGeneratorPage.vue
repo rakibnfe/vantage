@@ -1,14 +1,13 @@
 <template>
-  <PublicLayout>
+  <div>
     <!-- Input Field -->
     <!-- Options -->
     <!-- Live Preview -->
     <!-- Copy Button -->
-  </PublicLayout>
+  </div>
 </template>
 
 <script setup>
-import PublicLayout from '@/Layouts/PublicLayout.vue';
 </script>
 
 <style scoped>

@@ -17,7 +17,7 @@ class ServiceFeature extends Model
         'icon',
         'order',
     ];
-
+protected $table = 'service_features';
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class);

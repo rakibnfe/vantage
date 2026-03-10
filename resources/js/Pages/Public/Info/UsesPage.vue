@@ -1,14 +1,13 @@
 <template>
-  <PublicLayout>
+  <div>
     <!-- Desk Setup -->
     <!-- Software -->
     <!-- Dev Tools -->
     <!-- Productivity -->
-  </PublicLayout>
+  </div>
 </template>
 
 <script setup>
-import PublicLayout from '@/Layouts/PublicLayout.vue';
 </script>
 
 <style scoped>

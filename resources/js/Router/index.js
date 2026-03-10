@@ -1,61 +1,128 @@
-import { createRouter, createWebHistory } from 'vue-router';
+// resources/js/router/index.js
+import { createRouter, createWebHistory } from 'vue-router'
 
-// Public Pages
-import HomePage from '../Pages/HomePage.vue';
-import ProjectsPage from '../Pages/ProjectsPage.vue';
-import ProjectDetailPage from '../Pages/ProjectDetailPage.vue';
-import ServicesPage from '../Pages/ServicesPage.vue';
-import ServiceDetailPage from '../Pages/ServiceDetailPage.vue';
-import ArticlesPage from '../Pages/ArticlesPage.vue';
-import ArticleDetailPage from '../Pages/ArticleDetailPage.vue';
-import ToolsPage from '../Pages/ToolsPage.vue';
-import ToolDetailPage from '../Pages/ToolDetailPage.vue';
-import ContactPage from '../Pages/ContactPage.vue';
-import AboutPage from '../Pages/AboutPage.vue';
-import NowPage from '../Pages/NowPage.vue';
-import UsesPage from '../Pages/UsesPage.vue';
-import BlogPage from '../Pages/BlogPage.vue';
-import BlogPostPage from '../Pages/BlogPostPage.vue';
-import PrivacyPage from '../Pages/Legal/PrivacyPage.vue';
-import TermsPage from '../Pages/Legal/TermsPage.vue';
-import JsonFormatterPage from '../Pages/Tools/JsonFormatterPage.vue';
-import ApiViewerPage from '../Pages/Tools/ApiViewerPage.vue';
-import SlugGeneratorPage from '../Pages/Tools/SlugGeneratorPage.vue';
-import MarkdownPreviewPage from '../Pages/Tools/MarkdownPreviewPage.vue';
-import TextUtilitiesPage from '../Pages/Tools/TextUtilitiesPage.vue';
+// ==================== Layouts ====================
+import PublicLayout from '@/Layouts/PublicLayout.vue'
 
+// ==================== Public Pages ====================
+// Home
+import HomePage from '@/Pages/Public/Home/HomePage.vue'
+
+// Work/Projects
+import WorkListPage from '@/Pages/Public/Work/WorkListPage.vue'
+import WorkDetailPage from '@/Pages/Public/Work/WorkDetailPage.vue'
+
+// Services
+import ServicesListPage from '@/Pages/Public/Services/ServicesListPage.vue'
+import ServiceDetailPage from '@/Pages/Public/Services/ServiceDetailPage.vue'
+
+// Notes/Articles
+import NotesListPage from '@/Pages/Public/Notes/NotesListPage.vue'
+import ArticleDetailPage from '@/Pages/Public/Notes/ArticleDetailPage.vue'
+
+// Blog
+import BlogListPage from '@/Pages/Public/Blog/BlogListPage.vue'
+import PostDetailPage from '@/Pages/Public/Blog/PostDetailPage.vue'
+
+// Tools
+import ToolsListPage from '@/Pages/Public/Tools/ToolsListPage.vue'
+import JsonFormatterPage from '@/Pages/Public/Tools/JsonFormatterPage.vue'
+import ApiViewerPage from '@/Pages/Public/Tools/ApiViewerPage.vue'
+import SlugGeneratorPage from '@/Pages/Public/Tools/SlugGeneratorPage.vue'
+import MarkdownPreviewPage from '@/Pages/Public/Tools/MarkdownPreviewPage.vue'
+import TextUtilitiesPage from '@/Pages/Public/Tools/TextUtilitiesPage.vue'
+
+// Contact
+import ContactPage from '@/Pages/Public/Contact/ContactPage.vue'
+import ThankYouPage from '@/Pages/Public/Contact/ThankYouPage.vue'
+
+// Schedule
+import SchedulePage from '@/Pages/Public/Schedule/SchedulePage.vue'
+
+// Info Pages
+import AboutPage from '@/Pages/Public/Info/AboutPage.vue'
+import NowPage from '@/Pages/Public/Info/NowPage.vue'
+import UsesPage from '@/Pages/Public/Info/UsesPage.vue'
+import PrivacyPage from '@/Pages/Public/Info/PrivacyPage.vue'
+import TermsPage from '@/Pages/Public/Info/TermsPage.vue'
+
+// Auth Pages
+import LoginPage from '@/Pages/Public/Auth/LoginPage.vue'
+import RegisterPage from '@/Pages/Public/Auth/RegisterPage.vue'
+
+// ==================== Route Configuration ====================
 const routes = [
-  // Public Routes
-  { path: '/', name: 'home', component: HomePage },
-  { path: '/work', name: 'projects', component: ProjectsPage },
-  { path: '/work/:slug', name: 'project-detail', component: ProjectDetailPage },
-  { path: '/services', name: 'services', component: ServicesPage },
-  { path: '/services/:slug', name: 'service-detail', component: ServiceDetailPage },
-  { path: '/notes', name: 'articles', component: ArticlesPage },
-  { path: '/notes/:slug', name: 'article-detail', component: ArticleDetailPage },
-  { path: '/notes/topics/:topic', name: 'topic', component: ArticlesPage },
-  { path: '/tools', name: 'tools', component: ToolsPage },
-  { path: '/tools/json-formatter', name: 'tool-json-formatter', component: JsonFormatterPage },
-  { path: '/tools/api-viewer', name: 'tool-api-viewer', component: ApiViewerPage },
-  { path: '/tools/slug-generator', name: 'tool-slug-generator', component: SlugGeneratorPage },
-  { path: '/tools/markdown-preview', name: 'tool-markdown-preview', component: MarkdownPreviewPage },
-  { path: '/tools/text-utilities', name: 'tool-text-utilities', component: TextUtilitiesPage },
-  { path: '/tools/:slug', name: 'tool-detail', component: ToolDetailPage },
-  { path: '/contact', name: 'contact', component: ContactPage },
-  { path: '/contact/thank-you', name: 'contact-thank-you', component: ContactPage },
-  { path: '/about', name: 'about', component: AboutPage },
-  { path: '/now', name: 'now', component: NowPage },
-  { path: '/uses', name: 'uses', component: UsesPage },
-  { path: '/blog', name: 'blog', component: BlogPage },
-  { path: '/blog/:slug', name: 'blog-post', component: BlogPostPage },
-  { path: '/blog/categories/:category', name: 'blog-category', component: BlogPage },
-  { path: '/privacy', name: 'privacy', component: PrivacyPage },
-  { path: '/terms', name: 'terms', component: TermsPage },
-];
+  {
+    path: '/',
+    component: PublicLayout,
+    children: [
+      // Home
+      { path: '', name: 'home', component: HomePage },
 
+      // Work Routes
+      { path: 'work', name: 'work.list', component: WorkListPage },
+      { path: 'work/:slug', name: 'work.detail', component: WorkDetailPage },
+
+      // Services Routes
+      { path: 'services', name: 'services.list', component: ServicesListPage },
+      { path: 'services/:slug', name: 'services.detail', component: ServiceDetailPage },
+
+      // Notes Routes
+      { path: 'notes', name: 'notes.list', component: NotesListPage },
+      { path: 'notes/:slug', name: 'notes.detail', component: ArticleDetailPage },
+      { path: 'notes/topics/:topic', name: 'notes.topic', component: NotesListPage },
+
+      // Blog Routes
+      { path: 'blog', name: 'blog.list', component: BlogListPage },
+      { path: 'blog/:slug', name: 'blog.detail', component: PostDetailPage },
+      { path: 'blog/categories/:category', name: 'blog.category', component: BlogListPage },
+
+      // Tools Routes
+      { path: 'tools', name: 'tools.list', component: ToolsListPage },
+      { path: 'tools/json-formatter', name: 'tools.json-formatter', component: JsonFormatterPage },
+      { path: 'tools/api-viewer', name: 'tools.api-viewer', component: ApiViewerPage },
+      { path: 'tools/slug-generator', name: 'tools.slug-generator', component: SlugGeneratorPage },
+      { path: 'tools/markdown-preview', name: 'tools.markdown-preview', component: MarkdownPreviewPage },
+      { path: 'tools/text-utilities', name: 'tools.text-utilities', component: TextUtilitiesPage },
+
+      // Contact Routes
+      { path: 'contact', name: 'contact', component: ContactPage },
+      { path: 'contact/thank-you', name: 'contact.thank-you', component: ThankYouPage },
+
+      // Schedule
+      { path: 'schedule', name: 'schedule', component: SchedulePage },
+
+      // Info Routes
+      { path: 'about', name: 'about', component: AboutPage },
+      { path: 'now', name: 'now', component: NowPage },
+      { path: 'uses', name: 'uses', component: UsesPage },
+      { path: 'privacy', name: 'privacy', component: PrivacyPage },
+      { path: 'terms', name: 'terms', component: TermsPage },
+
+      // Auth Routes
+      { path: 'login', name: 'login', component: LoginPage },
+      { path: 'register', name: 'register', component: RegisterPage },
+    ]
+  }
+]
+
+// Create router instance
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-});
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0, behavior: 'smooth' }
+    }
+  }
+})
 
-export default router;
+// Navigation guard for auth routes (to be implemented later)
+router.beforeEach((to, from, next) => {
+  // Add auth logic here when ready
+  next()
+})
+
+export default router

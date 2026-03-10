@@ -18,7 +18,7 @@ class ServiceProcessStep extends Model
         'duration',
         'order',
     ];
-
+protected $table = 'service_process_steps';
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class);

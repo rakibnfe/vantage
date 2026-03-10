@@ -1,15 +1,14 @@
 <template>
-  <PublicLayout>
+  <div>
     <!-- Featured Post -->
     <!-- Categories Sidebar -->
     <!-- Post Grid -->
     <!-- Search Bar -->
     <!-- Newsletter -->
-  </PublicLayout>
+  </div>
 </template>
 
 <script setup>
-import PublicLayout from '@/Layouts/PublicLayout.vue';
 </script>
 
 <style scoped>

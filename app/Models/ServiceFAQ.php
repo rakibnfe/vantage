@@ -16,6 +16,7 @@ class ServiceFAQ extends Model
         'answer',
         'order',
     ];
+    protected $table = 'service_faqs'; 
 
     public function service(): BelongsTo
     {

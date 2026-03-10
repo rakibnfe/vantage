@@ -80,10 +80,11 @@ class Service extends Model
         return $this->hasMany(ServicePricingModel::class);
     }
 
-    public function projects(): BelongsToMany
-    {
-        return $this->belongsToMany(Project::class);
-    }
+   public function projects(): BelongsToMany
+{
+    return $this->belongsToMany(Project::class, 'service_project')
+                ->withTimestamps(); 
+}
 
     public function tags(): MorphToMany
     {

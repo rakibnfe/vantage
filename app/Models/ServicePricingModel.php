@@ -18,6 +18,7 @@ class ServicePricingModel extends Model
         'notes',
         'order',
     ];
+    protected $table = 'service_pricing_models';
 
     protected $casts = [
         'starting_price' => 'decimal:2',

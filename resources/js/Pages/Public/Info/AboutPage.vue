@@ -1,16 +1,15 @@
 <template>
-  <PublicLayout>
+  <div>
     <!-- Who I Am -->
     <!-- My Journey -->
     <!-- Philosophy -->
     <!-- Tools I Use -->
     <!-- Currently -->
     <!-- Personal Interests -->
-  </PublicLayout>
+  </div>
 </template>
 
 <script setup>
-import PublicLayout from '@/Layouts/PublicLayout.vue';
 </script>
 
 <style scoped>

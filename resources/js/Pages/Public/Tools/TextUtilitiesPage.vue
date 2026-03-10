@@ -1,14 +1,13 @@
 <template>
-  <PublicLayout>
+  <div>
     <!-- Character Counter -->
     <!-- Word Counter -->
     <!-- Case Converter -->
     <!-- Remove Extra Spaces -->
-  </PublicLayout>
+  </div>
 </template>
 
 <script setup>
-import PublicLayout from '@/Layouts/PublicLayout.vue';
 </script>
 
 <style scoped>

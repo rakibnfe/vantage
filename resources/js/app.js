@@ -2,9 +2,9 @@ import './bootstrap';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import router from './Router/index.js';
-import PublicLayout from './Layouts/PublicLayout.vue';
+import App from './App.vue';
 
-const app = createApp(PublicLayout);
+const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);

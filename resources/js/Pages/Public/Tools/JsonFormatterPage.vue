@@ -1,14 +1,13 @@
 <template>
-  <PublicLayout>
+  <div>
     <!-- Input Area -->
     <!-- Format Button -->
     <!-- Output Area -->
     <!-- Error Display -->
-  </PublicLayout>
+  </div>
 </template>
 
 <script setup>
-import PublicLayout from '@/Layouts/PublicLayout.vue';
 </script>
 
 <style scoped>

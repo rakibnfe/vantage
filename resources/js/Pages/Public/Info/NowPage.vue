@@ -1,14 +1,13 @@
 <template>
-  <PublicLayout>
+  <div>
     <!-- Current Projects -->
     <!-- Learning -->
     <!-- Reading List -->
     <!-- Recent Updates -->
-  </PublicLayout>
+  </div>
 </template>
 
 <script setup>
-import PublicLayout from '@/Layouts/PublicLayout.vue';
 </script>
 
 <style scoped>

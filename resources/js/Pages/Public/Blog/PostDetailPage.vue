@@ -1,5 +1,5 @@
 <template>
-  <PublicLayout>
+  <div>
     <!-- Post Header -->
     <!-- Post Content -->
     <!-- Author Info -->
@@ -7,11 +7,10 @@
     <!-- Share Buttons -->
     <!-- Related Posts -->
     <!-- Subscribe -->
-  </PublicLayout>
+  </div>
 </template>
 
 <script setup>
-import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();

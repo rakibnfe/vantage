@@ -1,5 +1,5 @@
 <template>
-  <PublicLayout>
+  <div>
     <!-- Article Header -->
     <!-- Table of Contents -->
     <!-- Article Content -->
@@ -7,11 +7,10 @@
     <!-- Related Articles -->
     <!-- Discussion -->
     <!-- Subscribe Section -->
-  </PublicLayout>
+  </div>
 </template>
 
 <script setup>
-import PublicLayout from '@/Layouts/PublicLayout.vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();

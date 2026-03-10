@@ -1,13 +1,12 @@
 <template>
-  <PublicLayout>
+  <div>
     <!-- Input Area -->
     <!-- Tree View -->
     <!-- Raw View -->
-  </PublicLayout>
+  </div>
 </template>
 
 <script setup>
-import PublicLayout from '@/Layouts/PublicLayout.vue';
 </script>
 
 <style scoped>

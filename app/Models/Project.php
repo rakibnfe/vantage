@@ -58,10 +58,10 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function services(): BelongsToMany
-    {
-        return $this->belongsToMany(Service::class);
-    }
+   public function services(): BelongsToMany
+{
+    return $this->belongsToMany(Service::class, 'service_project')
+                ->withTimestamps(); }
 
     public function tags(): MorphToMany
     {
