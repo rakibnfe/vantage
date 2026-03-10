@@ -1,0 +1,52 @@
+# Laravel
+/vendor/
+/node_modules/
+/.env
+.env.*
+!.env.example
+!.env.testing
+!.env.staging
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Laravel Storage
+/storage/*.key
+/storage/app/public/
+/storage/framework/cache/
+/storage/framework/data/
+/storage/framework/sessions/
+/storage/framework/testing/
+/storage/framework/views/
+/storage/logs/
+
+# Bootstrap Cache
+/bootstrap/cache/*.php
+!bootstrap/cache/.gitignore
+
+# Public Assets
+/public/build
+/public/hot
+/public/storage
+
+# IDE
+/.idea
+/.vscode
+/.fleet
+/.nova
+/.zed
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.phpunit.cache
+coverage/
