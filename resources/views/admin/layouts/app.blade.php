@@ -31,9 +31,15 @@
         <!-- Sidebar -->
         @include('admin.partials.sidebar')
         
+        <!-- Overlay for mobile -->
+        <div class="fixed inset-0 bg-black/50 lg:hidden z-10 transition-opacity"
+             x-show="sidebarOpen"
+             @click="sidebarOpen = false"
+             style="display: none;"></div>
+        
         <!-- Main Content -->
-        <div class="flex-1 transition-all duration-300"
-             :class="{ 'ml-64': sidebarOpen, 'ml-0': !sidebarOpen }">
+        <div class="flex-1 transition-all duration-300 w-full"
+             :class="{ 'lg:ml-64': sidebarOpen }">
             
             <!-- Top Navigation -->
             @include('admin.partials.topbar')

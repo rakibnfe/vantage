@@ -6,8 +6,8 @@
     $pendingArticles = \App\Models\Article::where('is_published', false)->count();
 @endphp
 
-<aside class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 z-30 flex flex-col"
-       :class="{ '-translate-x-full': !sidebarOpen }">
+<aside class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 z-40 flex flex-col"
+       :class="{ '-translate-x-full lg:translate-x-0': !sidebarOpen }">
     
     <!-- Logo -->
     <div class="h-16 flex items-center justify-between px-4 border-b border-gray-200 dark:border-gray-700">
@@ -237,7 +237,7 @@
 
     <!-- Logout Button -->
     <div class="p-4 border-t border-gray-200 dark:border-gray-700">
-        <form method="POST" action="{{ route('admin.logout') }}">
+        <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" 
                     class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">

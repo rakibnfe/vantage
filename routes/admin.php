@@ -90,6 +90,17 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle');
     Route::post('users/{user}/assign-role', [UserController::class, 'assignRole'])->name('users.role');
     
+    // Profile Management
+    Route::get('profile/edit', function() {
+        return redirect()->route('admin.users.edit', auth()->id());
+    })->name('profile.edit');
+    
+    // Logout
+    Route::post('logout', function() {
+        auth()->logout();
+        return redirect('/');
+    })->name('logout');
+    
     // Settings
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::get('/', [SettingController::class, 'index'])->name('index');

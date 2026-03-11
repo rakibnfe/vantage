@@ -1,11 +1,11 @@
-<header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-20">
+<header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-20" x-cloak>
     <div class="px-6 py-3 flex items-center justify-between">
         
         <!-- Left Side -->
         <div class="flex items-center gap-4">
             <!-- Sidebar Toggle -->
             <button @click="sidebarOpen = !sidebarOpen" 
-                    class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400">
+                    class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
@@ -22,7 +22,8 @@
             
             <!-- Dark Mode Toggle -->
             <button @click="darkMode = !darkMode" 
-                    class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400">
+                    class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors"
+                    title="Toggle dark mode">
                 <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
                 </svg>
@@ -32,8 +33,8 @@
             </button>
 
             <!-- Notifications -->
-            <div class="relative" x-data="dropdown">
-                <button @click="toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 relative">
+            <div class="relative" x-data="{ notifOpen: false }" @click.away="notifOpen = false">
+                <button @click="notifOpen = !notifOpen" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 relative transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                     </svg>
@@ -44,14 +45,14 @@
                 </button>
                 
                 <!-- Dropdown -->
-                <div x-show="open" @click.away="close" 
+                <div x-show="notifOpen"
                      class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50"
                      x-transition:enter="transition ease-out duration-200"
                      x-transition:enter-start="transform opacity-0 scale-95"
                      x-transition:enter-end="transform opacity-100 scale-100"
                      x-transition:leave="transition ease-in duration-150"
                      x-transition:leave-start="transform opacity-100 scale-100"
-                     x-transition:leave-end="transform opacity-0 scale-95">
+                     x-transition:leave-end="transform opacity-0 scale-95">>
                     
                     <div class="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="font-semibold text-gray-900 dark:text-white">Notifications</h3>
@@ -92,8 +93,8 @@
             </div>
 
             <!-- User Menu -->
-            <div class="relative" x-data="dropdown">
-                <button @click="toggle" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="relative" x-data="{ userOpen: false }" @click.away="userOpen = false">
+                <button @click="userOpen = !userOpen" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <div class="w-8 h-8 rounded-full bg-gradient-to-r from-primary-500 to-purple-500 flex items-center justify-center text-white font-semibold text-sm">
                         {{ substr(auth()->user()->name, 0, 2) }}
                     </div>
@@ -111,7 +112,7 @@
                 </button>
 
                 <!-- Dropdown -->
-                <div x-show="open" @click.away="close" 
+                <div x-show="userOpen"
                      class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50"
                      x-transition:enter="transition ease-out duration-200"
                      x-transition:enter-start="transform opacity-0 scale-95"
@@ -121,12 +122,12 @@
                      x-transition:leave-end="transform opacity-0 scale-95">
                     
                     <a href="{{ route('admin.profile.edit') }}" 
-                       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                         Profile
                     </a>
                     
                     <a href="{{ route('admin.settings.index') }}" 
-                       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                         Settings
                     </a>
                     
@@ -135,7 +136,7 @@
                     <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
                         <button type="submit" 
-                                class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                             Logout
                         </button>
                     </form>

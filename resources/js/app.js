@@ -9,4 +9,8 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 
-app.mount('#app');
+// Only mount Vue app if the target element exists (for SPA mode)
+const appElement = document.getElementById('app');
+if (appElement) {
+    app.mount('#app');
+}

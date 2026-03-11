@@ -110,7 +110,9 @@
         <!-- Traffic Chart -->
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Traffic Overview</h3>
-            <div class="h-64" id="traffic-chart"></div>
+            <div style="height: 256px; position: relative;">
+                <canvas id="traffic-chart"></canvas>
+            </div>
         </div>
 
         <!-- Popular Services -->
@@ -256,8 +258,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Traffic Chart
-    const ctx = document.getElementById('traffic-chart').getContext('2d');
-    new Chart(ctx, {
+    document.addEventListener('DOMContentLoaded', function() {
+        const chartElement = document.getElementById('traffic-chart');
+        if (!chartElement) return;
+        
+        const ctx = chartElement.getContext('2d');
+        new Chart(ctx, {
         type: 'line',
         data: {
             labels: {!! json_encode($chartData['labels']) !!},
@@ -312,6 +318,7 @@
                 }
             }
         }
+        });
     });
 </script>
 @endpush
