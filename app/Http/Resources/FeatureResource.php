@@ -9,6 +9,10 @@ class FeatureResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        if (!$this->resource) {
+            return [];
+        }
+
         return [
             'id' => $this->id,
             'title' => $this->title,

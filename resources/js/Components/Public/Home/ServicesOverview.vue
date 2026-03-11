@@ -35,31 +35,73 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { CodeBracketIcon, DevicePhoneMobileIcon, PaintBrushIcon, ChartBarIcon } from '@heroicons/vue/24/outline'
+import axios from 'axios'
+import {
+  CodeBracketIcon,
+  DevicePhoneMobileIcon,
+  PaintBrushIcon,
+  ChartBarIcon,
+  CloudIcon,
+  ShoppingCartIcon,
+  CogIcon,
+  WrenchIcon,
+  RocketLaunchIcon,
+  ShieldCheckIcon,
+  CpuChipIcon,
+  DocumentTextIcon
+} from '@heroicons/vue/24/outline'
 
 const services = ref([])
 const loading = ref(true)
 
-const sampleServices = [
-  { id: 1, title: 'Web Development', slug: 'web-development', description: 'Custom web applications with Laravel & Vue.js', icon: 'code' },
-  { id: 2, title: 'Mobile Apps', slug: 'mobile-apps', description: 'Cross-platform iOS & Android apps', icon: 'mobile' },
-  { id: 3, title: 'UI/UX Design', slug: 'ui-ux-design', description: 'Beautiful user-centered design', icon: 'design' },
-  { id: 4, title: 'Consulting', slug: 'consulting', description: 'Technical guidance & architecture', icon: 'consulting' }
-]
+const iconMap = {
+  'code': CodeBracketIcon,
+  'code-bracket': CodeBracketIcon,
+  'mobile': DevicePhoneMobileIcon,
+  'design': PaintBrushIcon,
+  'consulting': ChartBarIcon,
+  'cloud': CloudIcon,
+  'cart': ShoppingCartIcon,
+  'cog': CogIcon,
+  'wrench': WrenchIcon,
+  'rocket': RocketLaunchIcon,
+  'security': ShieldCheckIcon,
+  'chip': CpuChipIcon,
+  'document': DocumentTextIcon,
+  'default': CodeBracketIcon
+}
 
 const getIcon = (icon) => {
-  const icons = {
-    'code': CodeBracketIcon,
-    'mobile': DevicePhoneMobileIcon,
-    'design': PaintBrushIcon,
-    'consulting': ChartBarIcon
+  return iconMap[icon] || iconMap.default
+}
+
+const fetchServices = async () => {
+  try {
+    const response = await axios.get('/api/v1/services', {
+      params: {
+        published: true,
+        per_page: 4,
+        _: Date.now()
+      }
+    })
+
+    if (response.data?.data) {
+      services.value = response.data.data.map(service => ({
+        id: service.id,
+        title: service.title,
+        slug: service.slug,
+        description: service.tagline || service.overview || 'No description available',
+        icon: service.icon || 'default'
+      }))
+    }
+  } catch (error) {
+    console.error('Failed to fetch services:', error)
+  } finally {
+    loading.value = false
   }
-  return icons[icon] || CodeBracketIcon
 }
 
 onMounted(() => {
-  // Use sample data immediately
-  services.value = sampleServices
-  loading.value = false
+  fetchServices()
 })
 </script>

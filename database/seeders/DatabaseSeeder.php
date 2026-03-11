@@ -22,10 +22,13 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             ProjectSeeder::class,
             ArticleSeeder::class,
+
+            TestimonialSeeder::class,
             
             // Analytics and interactions last
             VisitorSeeder::class,
             ContactSeeder::class,
+            ScheduleSeeder::class,
         ]);
     }
 }

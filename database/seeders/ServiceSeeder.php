@@ -13,6 +13,7 @@ use Illuminate\Database\Seeder;
 
 class ServiceSeeder extends Seeder
 {
+
     public function run(): void
     {
         // Get tags for relationships

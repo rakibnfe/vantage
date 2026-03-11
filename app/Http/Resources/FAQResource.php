@@ -9,6 +9,10 @@ class FAQResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        if (!$this->resource) {
+            return [];
+        }
+
         return [
             'id' => $this->id,
             'question' => $this->question,

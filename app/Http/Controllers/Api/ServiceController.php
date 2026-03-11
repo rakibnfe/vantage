@@ -5,23 +5,20 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ServiceResource;
 use App\Http\Resources\ServiceCollection;
-use App\Http\Resources\ProjectCollection;
+use App\Http\Resources\ProjectResource;
 use App\Http\Resources\TechnologyResource;
 use App\Http\Resources\FAQResource;
 use App\Http\Resources\ProcessStepResource;
 use App\Http\Resources\PricingModelResource;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class ServiceController extends Controller
 {
-   public function index(Request $request)
-{
-    $perPage = $request->get('per_page', 10);
-    
-    // If per_page is 'all' or very large, get all records
-    if ($perPage === 'all' || $perPage > 100) {
+    public function index(Request $request)
+    {
+        $perPage = $request->get('per_page', 10);
+        
         $services = Service::query()
             ->with(['features', 'processSteps', 'faqs', 'technologies', 'pricingModels'])
             ->when($request->has('featured'), function ($query) use ($request) {
@@ -32,73 +29,37 @@ class ServiceController extends Controller
             })
             ->orderBy('order')
             ->orderBy('title')
-            ->get();
+            ->paginate($perPage);
         
-        return response()->json([
-            'data' => ServiceResource::collection($services),
-            'meta' => [
-                'total' => $services->count(),
-                'per_page' => 'all'
-            ]
-        ]);
-    }
-    
-    // Normal paginated response
-    $services = Service::query()
-        ->with(['features', 'processSteps', 'faqs', 'technologies', 'pricingModels'])
-        ->when($request->has('featured'), function ($query) use ($request) {
-            return $query->where('is_featured', $request->boolean('featured'));
-        })
-        ->when($request->has('published'), function ($query) use ($request) {
-            return $query->where('is_published', $request->boolean('published'));
-        })
-        ->orderBy('order')
-        ->orderBy('title')
-        ->paginate($perPage);
-    
-    return new ServiceCollection($services);
-}
-
-    public function featured()
-    {
-        $services = Cache::remember('services.featured', 3600, function () {
-            return Service::with(['features', 'processSteps'])
-                ->where('is_published', true)
-                ->where('is_featured', true)
-                ->orderBy('order')
-                ->take(6)
-                ->get();
-        });
-        
-        return response()->json([
-            'data' => ServiceResource::collection($services),
-            'meta' => [
-                'total' => $services->count(),
-                'featured_count' => $services->count(),
-            ]
-        ]);
+        return new ServiceCollection($services);
     }
 
-    public function show(Service $service)
+    public function show($slug)
     {
-        if (!$service->is_published) {
-            abort(404);
+        $service = Service::where('slug', $slug)
+            ->where('is_published', true)
+            ->with([
+                'features' => fn($q) => $q->orderBy('order'),
+                'processSteps' => fn($q) => $q->orderBy('order'),
+                'faqs' => fn($q) => $q->orderBy('order'),
+                'technologies' => fn($q) => $q->orderBy('order'),
+                'pricingModels' => fn($q) => $q->orderBy('order'),
+                'projects' => fn($q) => $q->published()->featured()->take(3),
+                'tags',
+            ])
+            ->first();
+        
+        if (!$service) {
+            return response()->json(['message' => 'Service not found'], 404);
         }
         
-        $service->load([
-            'features' => fn($q) => $q->orderBy('order'),
-            'processSteps' => fn($q) => $q->orderBy('order'),
-            'faqs' => fn($q) => $q->orderBy('order'),
-            'technologies' => fn($q) => $q->orderBy('order'),
-            'pricingModels' => fn($q) => $q->orderBy('order'),
-            'projects' => fn($q) => $q->published()->featured()->take(3),
-            'tags',
+        return response()->json([
+            'data' => new ServiceResource($service),
+            'message' => 'Service retrieved successfully'
         ]);
-        
-        return new ServiceResource($service);
     }
 
-    public function projects(Service $service, Request $request)
+    public function projects(Request $request, Service $service)
     {
         $limit = $request->get('limit', 6);
         
@@ -110,24 +71,28 @@ class ServiceController extends Controller
             ->limit($limit)
             ->get();
         
-        return new ProjectCollection($projects);
+        return response()->json([
+            'data' => ProjectResource::collection($projects),
+            'meta' => ['count' => $projects->count()]
+        ]);
     }
 
     public function technologies(Service $service)
     {
         $technologies = $service->technologies()
             ->orderBy('order')
-            ->get()
-            ->groupBy('category');
+            ->get();
+        
+        $grouped = $technologies->groupBy('category')->map(function ($items, $category) {
+            return [
+                'category' => $category,
+                'items' => TechnologyResource::collection($items)
+            ];
+        })->values();
         
         return response()->json([
-            'data' => TechnologyResource::collection($service->technologies),
-            'grouped' => $technologies->map(function ($items, $category) {
-                return [
-                    'category' => $category,
-                    'items' => TechnologyResource::collection($items)
-                ];
-            })->values()
+            'data' => TechnologyResource::collection($technologies),
+            'grouped' => $grouped
         ]);
     }
 

@@ -75,9 +75,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(\App\Models\Project::class);
     }
 
+    // In User.php - add this relationship
     public function articles(): HasMany
     {
-        return $this->hasMany(\App\Models\Article::class);
+        return $this->hasMany(Article::class);
     }
 
     public function tools(): HasMany

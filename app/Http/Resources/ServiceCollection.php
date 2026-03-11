@@ -7,17 +7,10 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ServiceCollection extends ResourceCollection
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @return array<int|string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [
-            'data' => $this->collection->map(function ($service) {
-                return new ServiceResource($service);
-            }),
+            'data' => ServiceResource::collection($this->collection),
             'meta' => [
                 'current_page' => $this->currentPage(),
                 'last_page' => $this->lastPage(),

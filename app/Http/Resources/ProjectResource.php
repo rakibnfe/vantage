@@ -9,6 +9,10 @@ class ProjectResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        if (!$this->resource) {
+            return [];
+        }
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -33,18 +37,9 @@ class ProjectResource extends JsonResource
             'published_at' => $this->published_at?->toISOString(),
             'created_at' => $this->created_at?->toISOString(),
             'updated_at' => $this->updated_at?->toISOString(),
-            
-            'user' => new UserResource($this->whenLoaded('user')),
-            'tags' => TagResource::collection($this->whenLoaded('tags')),
-            'services' => ServiceResource::collection($this->whenLoaded('services')),
-            
-            'urls' => [
-                'detail' => route('projects.show', $this->slug),
-                'live' => $this->live_url,
-                'github' => $this->github_url,
-                'case_study' => $this->case_study_url,
-            ],
-            
+            'user' => $this->whenLoaded('user', fn() => new UserResource($this->user)),
+            'tags' => $this->whenLoaded('tags', fn() => TagResource::collection($this->tags)),
+            'services' => $this->whenLoaded('services', fn() => ServiceResource::collection($this->services)),
             'duration_days' => $this->getDurationInDays(),
             'technologies_list' => $this->getTechnologiesList(),
         ];

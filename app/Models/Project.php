@@ -43,8 +43,8 @@ class Project extends Model
     ];
 
     protected $casts = [
-        'technologies' => 'json',
-        'images' => 'json',
+        'technologies' => 'array',
+        'images' => 'array',
         'start_date' => 'date',
         'end_date' => 'date',
         'is_featured' => 'boolean',
@@ -52,16 +52,15 @@ class Project extends Model
         'published_at' => 'datetime',
     ];
 
-    // Relationships
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-   public function services(): BelongsToMany
-{
-    return $this->belongsToMany(Service::class, 'service_project')
-                ->withTimestamps(); }
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'service_project')->withTimestamps();
+    }
 
     public function tags(): MorphToMany
     {
@@ -79,7 +78,6 @@ class Project extends Model
         return $this->morphMany(\Spatie\ActivityLog\Models\Activity::class, 'subject');
     }
 
-    // Activity Log Options
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -96,7 +94,6 @@ class Project extends Model
             ->dontSubmitEmptyLogs();
     }
 
-    // Scopes
     public function scopePublished($query)
     {
         return $query->where('is_published', true);
@@ -122,9 +119,12 @@ class Project extends Model
         return $query->where('status', 'completed');
     }
 
-    // Methods
     public function getTechnologiesList(): array
     {
+        if (is_string($this->technologies)) {
+            return json_decode($this->technologies, true) ?? [];
+        }
+        
         return $this->technologies ?? [];
     }
 

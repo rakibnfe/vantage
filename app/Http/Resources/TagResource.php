@@ -9,6 +9,10 @@ class TagResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        if (!$this->resource) {
+            return [];
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -17,12 +21,14 @@ class TagResource extends JsonResource
             'description' => $this->description,
             'created_at' => $this->created_at?->toISOString(),
             'updated_at' => $this->updated_at?->toISOString(),
-            
             'counts' => [
-                'projects' => $this->projects_count ?? 0,
-                'articles' => $this->articles_count ?? 0,
-                'services' => $this->services_count ?? 0,
+                'projects' => $this->when(isset($this->projects_count), $this->projects_count, 0),
+                'articles' => $this->when(isset($this->articles_count), $this->articles_count, 0),
+                'services' => $this->when(isset($this->services_count), $this->services_count, 0),
             ],
+            'projects' => $this->whenLoaded('projects', fn() => ProjectResource::collection($this->projects)),
+            'articles' => $this->whenLoaded('articles', fn() => ArticleResource::collection($this->articles)),
+            'services' => $this->whenLoaded('services', fn() => ServiceResource::collection($this->services)),
         ];
     }
 }

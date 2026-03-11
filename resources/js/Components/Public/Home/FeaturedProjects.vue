@@ -41,7 +41,7 @@
 
       <!-- No Projects -->
       <div v-else class="text-center py-12">
-        <p class="text-gray-600 dark:text-gray-400">No projects available</p>
+        <p class="text-gray-600 dark:text-gray-400">No featured projects available</p>
       </div>
 
       <!-- View All Link -->
@@ -61,7 +61,6 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import ProjectCard from '@/Components/Public/Common/ProjectCard.vue'
 import axios from 'axios'
 
-// Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -69,76 +68,21 @@ import 'swiper/css/pagination'
 const featuredProjects = ref([])
 const loading = ref(true)
 
-// Sample project data (use this if API fails)
-const sampleProjects = [
-  {
-    id: 1,
-    title: 'EcoTrack',
-    slug: 'ecotrack',
-    description: 'Sustainability tracking platform for businesses',
-    technologies: ['Laravel', 'Vue 3', 'Tailwind'],
-    featured_image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format',
-    timeline: '2024'
-  },
-  {
-    id: 2,
-    title: 'HealthSync',
-    slug: 'healthsync',
-    description: 'Patient management system with real-time updates',
-    technologies: ['React', 'Node.js', 'MongoDB'],
-    featured_image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format',
-    timeline: '2023'
-  },
-  {
-    id: 3,
-    title: 'FinDash',
-    slug: 'findash',
-    description: 'Financial dashboard for small businesses',
-    technologies: ['Vue 3', 'D3.js', 'Laravel'],
-    featured_image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format',
-    timeline: '2023'
-  },
-  {
-    id: 4,
-    title: 'LearnSpace',
-    slug: 'learnspace',
-    description: 'Online learning platform with interactive courses',
-    technologies: ['Next.js', 'TypeScript', 'Prisma'],
-    featured_image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format',
-    timeline: '2024'
-  },
-  {
-    id: 5,
-    title: 'FoodieFinder',
-    slug: 'foodiefinder',
-    description: 'Restaurant discovery and review app',
-    technologies: ['React Native', 'GraphQL', 'AWS'],
-    featured_image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format',
-    timeline: '2023'
-  },
-  {
-    id: 6,
-    title: 'FitTrack',
-    slug: 'fittrack',
-    description: 'Fitness tracking and workout planning app',
-    technologies: ['Flutter', 'Firebase', 'GetX'],
-    featured_image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&auto=format',
-    timeline: '2024'
-  }
-]
-
 const fetchProjects = async () => {
   try {
-    const response = await axios.get('/api/projects?featured=true&limit=6')
-    // If API returns data, use it, otherwise use samples
-    if (response.data?.data?.length) {
+    const response = await axios.get('/api/v1/projects', {
+      params: {
+        featured: true,
+        per_page: 6,
+        _: Date.now()
+      }
+    })
+    
+    if (response.data?.data) {
       featuredProjects.value = response.data.data
-    } else {
-      featuredProjects.value = sampleProjects
     }
   } catch (error) {
-    console.log('Using sample projects (API not available)')
-    featuredProjects.value = sampleProjects
+    console.error('Failed to fetch featured projects:', error)
   } finally {
     loading.value = false
   }

@@ -18,11 +18,11 @@ import ServiceDetailPage from '@/Pages/Public/Services/ServiceDetailPage.vue'
 
 // Notes/Articles
 import NotesListPage from '@/Pages/Public/Notes/NotesListPage.vue'
-import ArticleDetailPage from '@/Pages/Public/Notes/ArticleDetailPage.vue'
+import NoteDetailPage from '@/Pages/Public/Notes/NoteDetailPage.vue'
 
-// Blog
-import BlogListPage from '@/Pages/Public/Blog/BlogListPage.vue'
-import PostDetailPage from '@/Pages/Public/Blog/PostDetailPage.vue'
+// Article
+import ArticleListPage from '@/Pages/Public/Article/ArticleListPage.vue'
+import ArticleDetailPage from '@/Pages/Public/Article/ArticleDetailPage.vue'
 
 // Tools
 import ToolsListPage from '@/Pages/Public/Tools/ToolsListPage.vue'
@@ -50,6 +50,16 @@ import TermsPage from '@/Pages/Public/Info/TermsPage.vue'
 import LoginPage from '@/Pages/Public/Auth/LoginPage.vue'
 import RegisterPage from '@/Pages/Public/Auth/RegisterPage.vue'
 
+// ==================== NEW PAGES ====================
+// FAQ Pages
+import FaqListPage from '@/Pages/Public/FAQ/FaqListPage.vue'
+
+// Pricing Pages
+import PricingPage from '@/Pages/Public/Pricing/PricingPage.vue'
+
+// Process Pages
+import ProcessPage from '@/Pages/Public/Process/ProcessPage.vue'
+
 // ==================== Route Configuration ====================
 const routes = [
   {
@@ -69,13 +79,13 @@ const routes = [
 
       // Notes Routes
       { path: 'notes', name: 'notes.list', component: NotesListPage },
-      { path: 'notes/:slug', name: 'notes.detail', component: ArticleDetailPage },
+      { path: 'notes/:slug', name: 'notes.detail', component: NoteDetailPage },
       { path: 'notes/topics/:topic', name: 'notes.topic', component: NotesListPage },
 
-      // Blog Routes
-      { path: 'blog', name: 'blog.list', component: BlogListPage },
-      { path: 'blog/:slug', name: 'blog.detail', component: PostDetailPage },
-      { path: 'blog/categories/:category', name: 'blog.category', component: BlogListPage },
+      // Article Routes
+      { path: 'articles', name: 'article.list', component: ArticleListPage },
+      { path: 'article/:slug', name: 'article.detail', component: ArticleDetailPage },
+      { path: 'article/categories/:category', name: 'article.category', component: ArticleListPage },
 
       // Tools Routes
       { path: 'tools', name: 'tools.list', component: ToolsListPage },
@@ -102,6 +112,16 @@ const routes = [
       // Auth Routes
       { path: 'login', name: 'login', component: LoginPage },
       { path: 'register', name: 'register', component: RegisterPage },
+
+      // ==================== NEW ROUTES ====================
+      // FAQ Routes
+      { path: 'faq', name: 'faq.list', component: FaqListPage },
+      
+      // Pricing Routes
+      { path: 'pricing', name: 'pricing', component: PricingPage },
+      
+      // Process Routes
+      { path: 'process', name: 'process', component: ProcessPage },
     ]
   }
 ]

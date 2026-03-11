@@ -12,8 +12,13 @@
         </h2>
       </div>
 
+      <!-- Loading State -->
+      <div v-if="loading" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div v-for="n in 3" :key="n" class="bg-white dark:bg-gray-800 rounded-3xl h-64 animate-pulse"></div>
+      </div>
+
       <!-- Testimonials Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div v-else-if="testimonials.length" class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div v-for="testimonial in testimonials" 
              :key="testimonial.id"
              class="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300">
@@ -28,49 +33,70 @@
 
           <!-- Author -->
           <div class="flex items-center">
-            <div class="w-12 h-12 rounded-full bg-gradient-to-r from-primary-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl">
-              {{ testimonial.initials }}
-            </div>
+            <img 
+              :src="testimonial.client_avatar" 
+              :alt="testimonial.client_name"
+              class="w-12 h-12 rounded-full object-cover"
+            />
             <div class="ml-4">
-              <h4 class="font-bold text-gray-900 dark:text-white">{{ testimonial.name }}</h4>
-              <p class="text-sm text-gray-500 dark:text-gray-400">{{ testimonial.role }}</p>
+              <h4 class="font-bold text-gray-900 dark:text-white">{{ testimonial.client_name }}</h4>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ testimonial.client_role }}, {{ testimonial.client_company }}
+              </p>
             </div>
+          </div>
+
+          <!-- Project Link -->
+          <div v-if="testimonial.project_link" class="mt-3">
+            <a :href="testimonial.project_link" target="_blank" class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
+              {{ testimonial.project_name || 'View Project' }} →
+            </a>
           </div>
 
           <!-- Rating -->
           <div class="flex mt-4 text-yellow-400">
-            <StarIcon v-for="n in 5" :key="n" class="w-5 h-5 fill-current" />
+            <StarIcon v-for="n in 5" :key="n" class="w-5 h-5" :class="{ 'fill-current': n <= testimonial.rating, 'text-gray-300 dark:text-gray-600': n > testimonial.rating }" />
           </div>
         </div>
+      </div>
+
+      <!-- No Testimonials -->
+      <div v-else class="text-center py-12">
+        <p class="text-gray-600 dark:text-gray-400">No testimonials available</p>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 import { StarIcon } from '@heroicons/vue/24/solid'
 
-const testimonials = [
-  {
-    id: 1,
-    content: "An exceptional developer who delivered beyond expectations. The project was completed on time with perfect communication.",
-    name: "John Doe",
-    role: "CEO, TechCorp",
-    initials: "JD"
-  },
-  {
-    id: 2,
-    content: "Working with them was a game-changer. They understood our vision and brought it to life with clean, maintainable code.",
-    name: "Jane Smith",
-    role: "Founder, StartupX",
-    initials: "JS"
-  },
-  {
-    id: 3,
-    content: "Technical expertise combined with great communication. They always found solutions to complex problems.",
-    name: "Mike Brown",
-    role: "Product Manager, DevInc",
-    initials: "MB"
+const testimonials = ref([])
+const loading = ref(true)
+
+const fetchTestimonials = async () => {
+  try {
+    const response = await axios.get('/api/v1/testimonials', {
+      params: {
+        featured: true,
+        per_page: 3,
+        _: Date.now()
+      }
+    })
+
+    if (response.data?.data) {
+      testimonials.value = response.data.data
+    }
+  } catch (error) {
+    console.error('Failed to fetch testimonials:', error)
+  } finally {
+    loading.value = false
   }
-]
+}
+
+onMounted(() => {
+  fetchTestimonials()
+})
 </script>

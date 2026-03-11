@@ -12,6 +12,9 @@
     
     <!-- Recent Articles -->
     <RecentArticles />
+
+    <!-- Featured Articles -->
+    <FeaturedArticles />
     
     <!-- Tools -->
     <ToolsGrid />
@@ -29,6 +32,8 @@ import HeroSection from '@/Components/Public/Home/HeroSection.vue'
 import FeaturedProjects from '@/Components/Public/Home/FeaturedProjects.vue'
 import ServicesOverview from '@/Components/Public/Home/ServicesOverview.vue'
 import RecentArticles from '@/Components/Public/Home/RecentArticles.vue'
+import FeaturedArticles from '@/Components/Public/Home/FeaturedArticles.vue'
+
 import ToolsGrid from '@/Components/Public/Home/ToolsGrid.vue'
 import TestimonialsCarousel from '@/Components/Public/Home/TestimonialsCarousel.vue'
 import CtaSection from '@/Components/Public/Home/CtaSection.vue'

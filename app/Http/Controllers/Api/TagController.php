@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TagResource;
+use App\Http\Resources\TagCollection;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
@@ -11,22 +12,28 @@ class TagController extends Controller
 {
     public function index(Request $request)
     {
+        $perPage = $request->get('per_page', 20);
+        
         $tags = Tag::withCount(['projects', 'articles', 'services'])
             ->orderBy('name')
-            ->get();
+            ->paginate($perPage);
         
-        return response()->json([
-            'data' => TagResource::collection($tags),
-            'meta' => [
-                'total' => $tags->count(),
-            ]
-        ]);
+        return new TagCollection($tags);
     }
 
-    public function show(Tag $tag)
+    public function show($slug)
     {
-        $tag->loadCount(['projects', 'articles', 'services']);
+        $tag = Tag::where('slug', $slug)
+            ->withCount(['projects', 'articles', 'services'])
+            ->first();
         
-        return new TagResource($tag);
+        if (!$tag) {
+            return response()->json(['message' => 'Tag not found'], 404);
+        }
+        
+        return response()->json([
+            'data' => new TagResource($tag),
+            'message' => 'Tag retrieved successfully'
+        ]);
     }
 }
