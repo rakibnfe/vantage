@@ -2,17 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ServiceController;
-use App\Http\Controllers\Admin\ProjectController;
-use App\Http\Controllers\Admin\ArticleController;
-use App\Http\Controllers\Admin\BookingController;
-use App\Http\Controllers\Admin\ContactController;
-use App\Http\Controllers\Admin\TestimonialController;
-use App\Http\Controllers\Admin\ToolController;
-use App\Http\Controllers\Admin\InsightController;
-use App\Http\Controllers\Admin\MediaController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
+use App\Http\Controllers\Admin\ToolController as AdminToolController;
+use App\Http\Controllers\Admin\InsightController as AdminInsightController;
+use App\Http\Controllers\Admin\MediaController as AdminMediaController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 
 // Admin Routes (requires authentication)
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
@@ -23,72 +23,72 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('dashboard/recent-activities', [DashboardController::class, 'recentActivities'])->name('dashboard.activities');
     
     // Services Management
-    Route::resource('services', ServiceController::class);
-    Route::post('services/reorder', [ServiceController::class, 'reorder'])->name('services.reorder');
-    Route::post('services/{service}/toggle-status', [ServiceController::class, 'toggleStatus'])->name('services.toggle');
-    Route::post('services/{service}/clone', [ServiceController::class, 'clone'])->name('services.clone');
+    Route::resource('services', AdminServiceController::class);
+    Route::post('services/reorder', [AdminServiceController::class, 'reorder'])->name('services.reorder');
+    Route::post('services/{service}/toggle-status', [AdminServiceController::class, 'toggleStatus'])->name('services.toggle');
+    Route::post('services/{service}/clone', [AdminServiceController::class, 'clone'])->name('services.clone');
     
     // Projects Management
-    Route::resource('projects', ProjectController::class);
-    Route::post('projects/reorder', [ProjectController::class, 'reorder'])->name('projects.reorder');
-    Route::post('projects/{project}/toggle-featured', [ProjectController::class, 'toggleFeatured'])->name('projects.toggle-featured');
-    Route::post('projects/{project}/toggle-published', [ProjectController::class, 'togglePublished'])->name('projects.toggle-published');
+    Route::resource('projects', AdminProjectController::class);
+    Route::post('projects/reorder', [AdminProjectController::class, 'reorder'])->name('projects.reorder');
+    Route::post('projects/{project}/toggle-featured', [AdminProjectController::class, 'toggleFeatured'])->name('projects.toggle-featured');
+    Route::post('projects/{project}/toggle-published', [AdminProjectController::class, 'togglePublished'])->name('projects.toggle-published');
     
     // Articles Management
-    Route::resource('articles', ArticleController::class);
-    Route::post('articles/{article}/toggle-published', [ArticleController::class, 'togglePublished'])->name('articles.toggle');
-    Route::get('articles/categories', [ArticleController::class, 'categories'])->name('articles.categories');
-    Route::post('articles/categories', [ArticleController::class, 'storeCategory'])->name('articles.categories.store');
-    Route::delete('articles/categories/{category}', [ArticleController::class, 'destroyCategory'])->name('articles.categories.destroy');
+    Route::resource('articles', AdminArticleController::class);
+    Route::post('articles/{article}/toggle-published', [AdminArticleController::class, 'togglePublished'])->name('articles.toggle');
+    Route::get('articles/categories', [AdminArticleController::class, 'categories'])->name('articles.categories');
+    Route::post('articles/categories', [AdminArticleController::class, 'storeCategory'])->name('articles.categories.store');
+    Route::delete('articles/categories/{category}', [AdminArticleController::class, 'destroyCategory'])->name('articles.categories.destroy');
     
     // Bookings/Schedules Management
-    Route::resource('bookings', BookingController::class);
-    Route::get('calendar', [BookingController::class, 'calendar'])->name('calendar');
-    Route::post('bookings/{booking}/approve', [BookingController::class, 'approve'])->name('bookings.approve');
-    Route::post('bookings/{booking}/decline', [BookingController::class, 'decline'])->name('bookings.decline');
-    Route::post('bookings/{booking}/complete', [BookingController::class, 'complete'])->name('bookings.complete');
-    Route::get('availability', [BookingController::class, 'availability'])->name('availability');
-    Route::post('availability/store', [BookingController::class, 'storeAvailability'])->name('availability.store');
+    Route::resource('bookings', AdminBookingController::class);
+    Route::get('calendar', [AdminBookingController::class, 'calendar'])->name('calendar');
+    Route::post('bookings/{booking}/approve', [AdminBookingController::class, 'approve'])->name('bookings.approve');
+    Route::post('bookings/{booking}/decline', [AdminBookingController::class, 'decline'])->name('bookings.decline');
+    Route::post('bookings/{booking}/complete', [AdminBookingController::class, 'complete'])->name('bookings.complete');
+    Route::get('availability', [AdminBookingController::class, 'availability'])->name('availability');
+    Route::post('availability/store', [AdminBookingController::class, 'storeAvailability'])->name('availability.store');
     
     // Contacts/Inquiries
-    Route::resource('contacts', ContactController::class)->only(['index', 'show', 'destroy']);
-    Route::post('contacts/{contact}/reply', [ContactController::class, 'reply'])->name('contacts.reply');
-    Route::post('contacts/{contact}/mark-as', [ContactController::class, 'markAs'])->name('contacts.mark');
-    Route::post('contacts/bulk-action', [ContactController::class, 'bulkAction'])->name('contacts.bulk');
+    Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'destroy']);
+    Route::post('contacts/{contact}/reply', [AdminContactController::class, 'reply'])->name('contacts.reply');
+    Route::post('contacts/{contact}/mark-as', [AdminContactController::class, 'markAs'])->name('contacts.mark');
+    Route::post('contacts/bulk-action', [AdminContactController::class, 'bulkAction'])->name('contacts.bulk');
     
     // Testimonials
-    Route::resource('testimonials', TestimonialController::class);
-    Route::post('testimonials/reorder', [TestimonialController::class, 'reorder'])->name('testimonials.reorder');
-    Route::post('testimonials/{testimonial}/toggle-featured', [TestimonialController::class, 'toggleFeatured'])->name('testimonials.toggle');
+    Route::resource('testimonials', AdminTestimonialController::class);
+    Route::post('testimonials/reorder', [AdminTestimonialController::class, 'reorder'])->name('testimonials.reorder');
+    Route::post('testimonials/{testimonial}/toggle-featured', [AdminTestimonialController::class, 'toggleFeatured'])->name('testimonials.toggle');
     
     // Tools Management
-    Route::resource('tools', ToolController::class)->only(['index', 'edit', 'update']);
-    Route::post('tools/{tool}/toggle', [ToolController::class, 'toggle'])->name('tools.toggle');
-    Route::get('tools/stats', [ToolController::class, 'stats'])->name('tools.stats');
+    Route::resource('tools', AdminToolController::class)->only(['index', 'edit', 'update']);
+    Route::post('tools/{tool}/toggle', [AdminToolController::class, 'toggle'])->name('tools.toggle');
+    Route::get('tools/stats', [AdminToolController::class, 'stats'])->name('tools.stats');
     
     // Insights/Analytics
     Route::prefix('insights')->name('insights.')->group(function () {
-        Route::get('/', [InsightController::class, 'index'])->name('index');
-        Route::get('visitors', [InsightController::class, 'visitors'])->name('visitors');
-        Route::get('page-views', [InsightController::class, 'pageViews'])->name('page-views');
-        Route::get('popular-content', [InsightController::class, 'popularContent'])->name('popular');
-        Route::get('export', [InsightController::class, 'export'])->name('export');
+        Route::get('/', [AdminInsightController::class, 'index'])->name('index');
+        Route::get('visitors', [AdminInsightController::class, 'visitors'])->name('visitors');
+        Route::get('page-views', [AdminInsightController::class, 'pageViews'])->name('page-views');
+        Route::get('popular-content', [AdminInsightController::class, 'popularContent'])->name('popular');
+        Route::get('export', [AdminInsightController::class, 'export'])->name('export');
     });
     
     // Media Library
     Route::prefix('media')->name('media.')->group(function () {
-        Route::get('/', [MediaController::class, 'index'])->name('index');
-        Route::post('upload', [MediaController::class, 'upload'])->name('upload');
-        Route::delete('{media}', [MediaController::class, 'destroy'])->name('destroy');
-        Route::post('folder/create', [MediaController::class, 'createFolder'])->name('folder.create');
-        Route::delete('folder/{folder}', [MediaController::class, 'deleteFolder'])->name('folder.delete');
-        Route::post('bulk-delete', [MediaController::class, 'bulkDelete'])->name('bulk-delete');
+        Route::get('/', [AdminMediaController::class, 'index'])->name('index');
+        Route::post('upload', [AdminMediaController::class, 'upload'])->name('upload');
+        Route::delete('{media}', [AdminMediaController::class, 'destroy'])->name('destroy');
+        Route::post('folder/create', [AdminMediaController::class, 'createFolder'])->name('folder.create');
+        Route::delete('folder/{folder}', [AdminMediaController::class, 'deleteFolder'])->name('folder.delete');
+        Route::post('bulk-delete', [AdminMediaController::class, 'bulkDelete'])->name('bulk-delete');
     });
     
     // Users Management
-    Route::resource('users', UserController::class);
-    Route::post('users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle');
-    Route::post('users/{user}/assign-role', [UserController::class, 'assignRole'])->name('users.role');
+    Route::resource('users', AdminUserController::class);
+    Route::post('users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('users.toggle');
+    Route::post('users/{user}/assign-role', [AdminUserController::class, 'assignRole'])->name('users.role');
     
     // Profile Management
     Route::get('profile/edit', function() {
@@ -103,12 +103,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     
     // Settings
     Route::prefix('settings')->name('settings.')->group(function () {
-        Route::get('/', [SettingController::class, 'index'])->name('index');
-        Route::post('general', [SettingController::class, 'updateGeneral'])->name('general');
-        Route::post('seo', [SettingController::class, 'updateSeo'])->name('seo');
-        Route::post('email', [SettingController::class, 'updateEmail'])->name('email');
-        Route::post('social', [SettingController::class, 'updateSocial'])->name('social');
-        Route::post('backup', [SettingController::class, 'backup'])->name('backup');
-        Route::get('logs', [SettingController::class, 'logs'])->name('logs');
+        Route::get('/', [AdminSettingController::class, 'index'])->name('index');
+        Route::post('general', [AdminSettingController::class, 'updateGeneral'])->name('general');
+        Route::post('seo', [AdminSettingController::class, 'updateSeo'])->name('seo');
+        Route::post('email', [AdminSettingController::class, 'updateEmail'])->name('email');
+        Route::post('social', [AdminSettingController::class, 'updateSocial'])->name('social');
+        Route::post('backup', [AdminSettingController::class, 'backup'])->name('backup');
+        Route::get('logs', [AdminSettingController::class, 'logs'])->name('logs');
     });
 });
