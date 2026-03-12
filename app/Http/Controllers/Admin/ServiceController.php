@@ -36,7 +36,7 @@ class ServiceController extends Controller
         $service = $this->serviceService->create($request->validated());
 
         return redirect()
-            ->route('admin.services.edit', $service)
+            ->route('dashboard.services.edit', $service)
             ->with('success', 'Service created successfully.');
     }
 
@@ -55,7 +55,7 @@ class ServiceController extends Controller
         $this->serviceService->update($service, $request->validated());
 
         return redirect()
-            ->route('admin.services.edit', $service)
+            ->route('dashboard.services.edit', $service)
             ->with('success', 'Service updated.');
     }
 
@@ -64,7 +64,7 @@ class ServiceController extends Controller
         $this->serviceService->delete($service);
 
         return redirect()
-            ->route('admin.services.index')
+            ->route('dashboard.services.index')
             ->with('success', 'Service deleted.');
     }
 
@@ -84,7 +84,7 @@ class ServiceController extends Controller
         $newService = $this->serviceService->clone($service);
 
         return redirect()
-            ->route('admin.services.edit', $newService)
+            ->route('dashboard.services.edit', $newService)
             ->with('success', 'Service cloned.');
     }
 

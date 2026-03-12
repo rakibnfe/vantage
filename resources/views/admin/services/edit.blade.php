@@ -7,13 +7,13 @@
 <nav class="flex" aria-label="Breadcrumb">
     <ol class="flex items-center space-x-2 text-sm">
         <li>
-            <a href="{{ route('admin.dashboard') }}" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">Dashboard</a>
+            <a href="{{ route('dashboard.index') }}" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">Dashboard</a>
         </li>
         <li>
             <span class="text-gray-400 dark:text-gray-500 mx-2">/</span>
         </li>
         <li>
-            <a href="{{ route('admin.services.index') }}" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">Services</a>
+            <a href="{{ route('dashboard.services.index') }}" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">Services</a>
         </li>
         <li>
             <span class="text-gray-400 dark:text-gray-500 mx-2">/</span>
@@ -28,7 +28,7 @@
 @section('content')
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
     <form method="POST" 
-          action="{{ route('admin.services.update', $service) }}" 
+          action="{{ route('dashboard.services.update', $service) }}" 
           enctype="multipart/form-data"
           x-data="serviceForm()"
           @submit.prevent="submitForm">
@@ -62,7 +62,7 @@
             </div>
             
             <div class="flex items-center gap-3">
-                <a href="{{ route('admin.services.index') }}" 
+                <a href="{{ route('dashboard.services.index') }}" 
                    class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                     Cancel
                 </a>

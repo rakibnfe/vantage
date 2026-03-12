@@ -14,7 +14,7 @@
             </div>
             
             <div class="flex items-center gap-3">
-                <a href="{{ route('admin.services.create') }}" 
+                <a href="{{ route('dashboard.services.create') }}" 
                    class="inline-flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
@@ -26,7 +26,7 @@
 
         <!-- Filters -->
         <div class="mb-6">
-            <form method="GET" action="{{ route('admin.services.index') }}" class="flex flex-col sm:flex-row gap-4">
+            <form method="GET" action="{{ route('dashboard.services.index') }}" class="flex flex-col sm:flex-row gap-4">
                 <div class="flex-1">
                     <div class="relative">
                         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,7 +53,7 @@
                         Filter
                     </button>
                     
-                    <a href="{{ route('admin.services.index') }}" 
+                    <a href="{{ route('dashboard.services.index') }}" 
                        class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                         Clear
                     </a>
@@ -132,13 +132,13 @@
                                     @endif
                                 </button>
                                 
-                                <a href="{{ route('admin.services.show', $service) }}" 
+                                <a href="{{ route('dashboard.services.show', $service) }}" 
                                    class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors"
                                    title="View">
                                     <x-heroicon-o-eye class="w-5 h-5" />
                                 </a>
                                 
-                                <a href="{{ route('admin.services.edit', $service) }}" 
+                                <a href="{{ route('dashboard.services.edit', $service) }}" 
                                    class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors"
                                    title="Edit">
                                     <x-heroicon-o-pencil class="w-5 h-5" />
@@ -167,7 +167,7 @@
                             <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No services</h3>
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new service.</p>
                             <div class="mt-6">
-                                <a href="{{ route('admin.services.create') }}" class="inline-flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg">
+                                <a href="{{ route('dashboard.services.create') }}" class="inline-flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg">
                                     <x-heroicon-o-plus class="w-5 h-5 mr-2" />
                                     Add New Service
                                 </a>
@@ -203,7 +203,7 @@
                 });
             });
             
-            fetch('{{ route("admin.services.reorder") }}', {
+            fetch('{{ route("dashboard.services.reorder") }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

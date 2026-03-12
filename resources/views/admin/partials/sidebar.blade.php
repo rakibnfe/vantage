@@ -8,7 +8,7 @@
        x-cloak>
     
     <div class="h-16 flex items-center px-4 border-b border-gray-200 dark:border-gray-800 flex-shrink-0" :class="{ 'justify-center': !sidebarOpen, 'justify-between': sidebarOpen }">
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center" :class="{ 'justify-center': !sidebarOpen }">
+        <a href="{{ route('dashboard.index') }}" class="flex items-center" :class="{ 'justify-center': !sidebarOpen }">
             <div class="w-8 h-8 bg-gradient-to-r from-primary-600 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
                 <span class="text-white font-bold text-xl">V</span>
             </div>
@@ -43,7 +43,7 @@
             </div>
             
             <template x-if="!sidebarOpen">
-                <a href="{{ route('admin.logout') }}" 
+                <a href="{{ route('logout') }}" 
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                    class="absolute left-1-2 transform -translate-x-1-2 bottom-16 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 transition-colors"
                    x-data="{ tooltip: false }"

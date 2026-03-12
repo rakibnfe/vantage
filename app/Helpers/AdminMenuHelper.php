@@ -10,75 +10,75 @@ class AdminMenuHelper
     {
         return [
             'dashboard' => [
-                'route' => 'admin.dashboard',
+                'route' => 'dashboard.index',
                 'label' => 'Dashboard',
                 'icon' => 'home',
-                'pattern' => 'admin.dashboard'
+                'pattern' => 'dashboard.index'
             ],
             'content' => [
                 'type' => 'section',
                 'label' => 'Content'
             ],
             'services' => [
-                'route' => 'admin.services.index',
+                'route' => 'dashboard.services.index',
                 'label' => 'Services',
                 'icon' => 'briefcase',
-                'pattern' => 'admin.services.*',
+                'pattern' => 'dashboard.services.*',
                 'pending' => \App\Models\Service::where('is_published', false)->count()
             ],
             'projects' => [
-                'route' => 'admin.projects.index',
+                'route' => 'dashboard.projects.index',
                 'label' => 'Projects',
                 'icon' => 'folder',
-                'pattern' => 'admin.projects.*',
+                'pattern' => 'dashboard.projects.*',
                 'pending' => \App\Models\Project::where('is_published', false)->count()
             ],
             'articles' => [
-                'route' => 'admin.articles.index',
+                'route' => 'dashboard.articles.index',
                 'label' => 'Articles',
                 'icon' => 'document-text',
-                'pattern' => 'admin.articles.*',
+                'pattern' => 'dashboard.articles.*',
                 'pending' => \App\Models\Article::where('is_published', false)->count()
             ],
             'testimonials' => [
-                'route' => 'admin.testimonials.index',
+                'route' => 'dashboard.testimonials.index',
                 'label' => 'Testimonials',
                 'icon' => 'chat-bubble-left-right',
-                'pattern' => 'admin.testimonials.*'
+                'pattern' => 'dashboard.testimonials.*'
             ],
             'appointments' => [
                 'type' => 'section',
                 'label' => 'Appointments'
             ],
             'calendar' => [
-                'route' => 'admin.calendar',
+                'route' => 'dashboard.calendar',
                 'label' => 'Calendar',
                 'icon' => 'calendar',
-                'pattern' => 'admin.calendar',
+                'pattern' => 'dashboard.calendar',
                 'pending' => \App\Models\Schedule::where('status', 'pending')->count(),
                 'pending_color' => 'red'
             ],
             'all-bookings' => [
-                'route' => 'admin.bookings.index',
+                'route' => 'dashboard.bookings.index',
                 'label' => 'All Bookings',
                 'icon' => 'clipboard-document-list',
-                'pattern' => 'admin.bookings.*'
+                'pattern' => 'dashboard.bookings.*'
             ],
             'set-availability' => [
-                'route' => 'admin.availability',
+                'route' => 'dashboard.availability',
                 'label' => 'Set Availability',
                 'icon' => 'clock',
-                'pattern' => 'admin.availability'
+                'pattern' => 'dashboard.availability'
             ],
             'communication' => [
                 'type' => 'section',
                 'label' => 'Communication'
             ],
             'inquiries' => [
-                'route' => 'admin.contacts.index',
+                'route' => 'dashboard.contacts.index',
                 'label' => 'Inquiries',
                 'icon' => 'envelope',
-                'pattern' => 'admin.contacts.*',
+                'pattern' => 'dashboard.contacts.*',
                 'pending' => \App\Models\Contact::where('status', 'new')->count(),
                 'pending_color' => 'green'
             ],
@@ -87,38 +87,38 @@ class AdminMenuHelper
                 'label' => 'Analytics'
             ],
             'insights' => [
-                'route' => 'admin.insights.index',
+                'route' => 'dashboard.insights.index',
                 'label' => 'Insights',
                 'icon' => 'chart-bar',
-                'pattern' => 'admin.insights.*'
+                'pattern' => 'dashboard.insights.*'
             ],
             'tools' => [
-                'route' => 'admin.tools.index',
+                'route' => 'dashboard.tools.index',
                 'label' => 'Tools',
                 'icon' => 'wrench-screwdriver',
-                'pattern' => 'admin.tools.*'
+                'pattern' => 'dashboard.tools.*'
             ],
             'system' => [
                 'type' => 'section',
                 'label' => 'System'
             ],
             'media' => [
-                'route' => 'admin.media.index',
+                'route' => 'dashboard.media.index',
                 'label' => 'Media Library',
                 'icon' => 'photo',
-                'pattern' => 'admin.media.*'
+                'pattern' => 'dashboard.media.*'
             ],
             'users' => [
-                'route' => 'admin.users.index',
+                'route' => 'dashboard.users.index',
                 'label' => 'Users',
                 'icon' => 'users',
-                'pattern' => 'admin.users.*'
+                'pattern' => 'dashboard.users.*'
             ],
             'settings' => [
-                'route' => 'admin.settings.index',
+                'route' => 'dashboard.settings.index',
                 'label' => 'Settings',
                 'icon' => 'cog-6-tooth',
-                'pattern' => 'admin.settings.*'
+                'pattern' => 'dashboard.settings.*'
             ]
         ];
     }

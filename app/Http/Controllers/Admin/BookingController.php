@@ -9,6 +9,5 @@ class BookingController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Schedule::class, 'booking');
     }
 }

@@ -24,7 +24,7 @@
                     </svg>
                 </div>
             </div>
-            <a href="{{ route('admin.services.index') }}" class="mt-4 inline-flex items-center text-sm text-primary-600 hover:text-primary-700">
+            <a href="{{ route('dashboard.services.index') }}" class="mt-4 inline-flex items-center text-sm text-primary-600 hover:text-primary-700">
                 View all services
                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -48,7 +48,7 @@
                     </svg>
                 </div>
             </div>
-            <a href="{{ route('admin.projects.index') }}" class="mt-4 inline-flex items-center text-sm text-purple-600 hover:text-purple-700">
+            <a href="{{ route('dashboard.projects.index') }}" class="mt-4 inline-flex items-center text-sm text-purple-600 hover:text-purple-700">
                 View all projects
                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -72,7 +72,7 @@
                     </svg>
                 </div>
             </div>
-            <a href="{{ route('admin.articles.index') }}" class="mt-4 inline-flex items-center text-sm text-green-600 hover:text-green-700">
+            <a href="{{ route('dashboard.articles.index') }}" class="mt-4 inline-flex items-center text-sm text-green-600 hover:text-green-700">
                 View all articles
                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -96,7 +96,7 @@
                     </svg>
                 </div>
             </div>
-            <a href="{{ route('admin.contacts.index') }}" class="mt-4 inline-flex items-center text-sm text-yellow-600 hover:text-yellow-700">
+            <a href="{{ route('dashboard.contacts.index') }}" class="mt-4 inline-flex items-center text-sm text-yellow-600 hover:text-yellow-700">
                 View all inquiries
                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -147,7 +147,7 @@
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Inquiries</h3>
-                <a href="{{ route('admin.contacts.index') }}" class="text-sm text-primary-600 hover:text-primary-700">View all</a>
+                <a href="{{ route('dashboard.contacts.index') }}" class="text-sm text-primary-600 hover:text-primary-700">View all</a>
             </div>
             <div class="space-y-4">
                 @forelse($recentContacts as $contact)
@@ -179,7 +179,7 @@
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Upcoming Bookings</h3>
-                <a href="{{ route('admin.calendar') }}" class="text-sm text-primary-600 hover:text-primary-700">View calendar</a>
+                <a href="{{ route('dashboard.calendar') }}" class="text-sm text-primary-600 hover:text-primary-700">View calendar</a>
             </div>
             <div class="space-y-4">
                 @forelse($upcomingBookings as $booking)
@@ -210,7 +210,7 @@
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <a href="{{ route('admin.services.create') }}" 
+            <a href="{{ route('dashboard.services.create') }}" 
                class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 transition group">
                 <div class="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition">
                     <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -220,7 +220,7 @@
                 <p class="text-sm font-medium text-gray-700 dark:text-gray-300">New Service</p>
             </a>
 
-            <a href="{{ route('admin.projects.create') }}" 
+            <a href="{{ route('dashboard.projects.create') }}" 
                class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/20 transition group">
                 <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition">
                     <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -230,7 +230,7 @@
                 <p class="text-sm font-medium text-gray-700 dark:text-gray-300">New Project</p>
             </a>
 
-            <a href="{{ route('admin.articles.create') }}" 
+            <a href="{{ route('dashboard.articles.create') }}" 
                class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-green-50 dark:hover:bg-green-900/20 transition group">
                 <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition">
                     <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -240,7 +240,7 @@
                 <p class="text-sm font-medium text-gray-700 dark:text-gray-300">New Article</p>
             </a>
 
-            <a href="{{ route('admin.availability') }}" 
+            <a href="{{ route('dashboard.availability') }}" 
                class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition group">
                 <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition">
                     <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

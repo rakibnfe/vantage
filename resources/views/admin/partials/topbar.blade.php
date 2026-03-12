@@ -58,7 +58,7 @@
                         @php $recentContacts = \App\Models\Contact::where('status', 'new')->latest()->take(5)->get(); @endphp
                         
                         @forelse($recentContacts as $contact)
-                            <a href="{{ route('admin.contacts.show', $contact) }}" 
+                            <a href="{{ route('dashboard.contacts.show', $contact) }}" 
                                class="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                                 <p class="text-sm font-medium text-gray-900 dark:text-white">
                                     {{ $contact->name }}
@@ -79,7 +79,7 @@
                     </div>
                     
                     <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
-                        <a href="{{ route('admin.contacts.index') }}" class="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400">
+                        <a href="{{ route('dashboard.contacts.index') }}" class="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400">
                             View all inquiries
                         </a>
                     </div>
@@ -112,19 +112,24 @@
                      x-transition:leave-start="transform opacity-100 scale-100"
                      x-transition:leave-end="transform opacity-0 scale-95">
                     
-                    <a href="{{ route('admin.profile.edit') }}" 
+                    <a href="{{ route('profile.edit') }}" 
                        class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                         Profile
                     </a>
                     
-                    <a href="{{ route('admin.settings.index') }}" 
+                    <a href="{{ route('password.edit') }}" 
+                       class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        Change Password
+                    </a>
+                    
+                    <a href="{{ route('dashboard.settings.index') }}" 
                        class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                         Settings
                     </a>
                     
                     <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
                     
-                    <form method="POST" action="{{ route('admin.logout') }}">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" 
                                 class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
