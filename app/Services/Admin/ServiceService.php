@@ -2,113 +2,82 @@
 
 namespace App\Services\Admin;
 
+use App\DTOs\ServiceData;
 use App\Models\Service;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Models\Project;
+use App\Repositories\ServiceRepository;
+use App\Http\Requests\Admin\ServiceRequest;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class ServiceService
 {
-    public function create(array $data): Service
+    public function __construct(
+        private readonly ServiceRepository $repository
+    ) {}
+
+    public function paginate(array $filters = []): LengthAwarePaginator
     {
-        return DB::transaction(function () use ($data) {
-
-            $data['slug'] = $this->generateSlug($data['title']);
-
-            $service = Service::create($data);
-
-            return $service;
-        });
+        return $this->repository->paginateWithFilters($filters);
     }
 
-    public function update(Service $service, array $data): Service
+    public function find(int $id): ?Service
     {
-        return DB::transaction(function () use ($service, $data) {
-
-            if (isset($data['title'])) {
-                $data['slug'] = $this->generateSlug($data['title'], $service->id);
-            }
-
-            $service->update($data);
-
-            return $service;
-        });
+        return $this->repository->find($id);
     }
 
-    public function delete(Service $service): void
+    public function create(ServiceRequest $request): Service
     {
-        DB::transaction(function () use ($service) {
-
-            $service->features()->delete();
-            $service->faqs()->delete();
-            $service->processSteps()->delete();
-            $service->technologies()->delete();
-            $service->pricingModels()->delete();
-
-            $service->delete();
-        });
+        $dto = ServiceData::fromRequest($request->validated());
+        return $this->repository->createFromDTO($dto);
     }
 
-    public function toggleStatus(Service $service): void
+    public function update(Service $service, ServiceRequest $request): Service
     {
-        $service->update([
-            'is_published' => !$service->is_published
-        ]);
+        $dto = ServiceData::fromRequest($request->validated());
+        return $this->repository->updateFromDTO($service, $dto);
+    }
+
+    public function delete(Service $service): bool
+    {
+        return $this->repository->delete($service);
+    }
+
+    public function reorder(array $items): void
+    {
+        $this->repository->reorder($items);
+    }
+
+    public function toggleStatus(Service $service): bool
+    {
+        return $this->repository->toggleStatus($service);
     }
 
     public function clone(Service $service): Service
     {
-        return DB::transaction(function () use ($service) {
-
-            $new = $service->replicate();
-            $new->title = $service->title . ' (Copy)';
-            $new->slug = $this->generateSlug($new->title);
-            $new->push();
-
-            foreach ($service->features as $feature) {
-                $new->features()->create($feature->toArray());
-            }
-
-            foreach ($service->faqs as $faq) {
-                $new->faqs()->create($faq->toArray());
-            }
-
-            foreach ($service->processSteps as $step) {
-                $new->processSteps()->create($step->toArray());
-            }
-
-            foreach ($service->technologies as $tech) {
-                $new->technologies()->create($tech->toArray());
-            }
-
-            foreach ($service->pricingModels as $price) {
-                $new->pricingModels()->create($price->toArray());
-            }
-
-            return $new;
-        });
+        return $this->repository->clone($service);
     }
 
-    public function reorder(array $items)
+    public function getProjectsForSelect(): Collection
     {
-        foreach ($items as $order => $id) {
-            Service::where('id', $id)->update([
-                'order' => $order
-            ]);
-        }
+        return Project::select('id', 'title')
+            ->orderBy('title')
+            ->get();
     }
 
-    private function generateSlug(string $title, $ignoreId = null): string
+    public function getFormData(Service $service = null): array
     {
-        $slug = Str::slug($title);
-
-        $query = Service::where('slug', 'LIKE', "$slug%");
-
-        if ($ignoreId) {
-            $query->where('id', '!=', $ignoreId);
-        }
-
-        $count = $query->count();
-
-        return $count ? "{$slug}-{$count}" : $slug;
+        return [
+            'service' => $service?->load([
+                'features' => fn($q) => $q->orderBy('order'),
+                'processSteps' => fn($q) => $q->orderBy('order'),
+                'faqs' => fn($q) => $q->orderBy('order'),
+                'technologies' => fn($q) => $q->orderBy('order'),
+                'pricingModels' => fn($q) => $q->orderBy('order'),
+                'projects:id,title'
+            ]),
+            'projects' => $this->getProjectsForSelect(),
+            'selectedProjects' => $service?->projects->pluck('id')->toArray() ?? [],
+        ];
     }
 }

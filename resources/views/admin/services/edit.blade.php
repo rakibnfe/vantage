@@ -3,28 +3,6 @@
 @section('title', 'Edit Service')
 @section('page-title', 'Edit Service: ' . $service->title)
 
-@section('breadcrumb')
-<nav class="flex" aria-label="Breadcrumb">
-    <ol class="flex items-center space-x-2 text-sm">
-        <li>
-            <a href="{{ route('dashboard.index') }}" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">Dashboard</a>
-        </li>
-        <li>
-            <span class="text-gray-400 dark:text-gray-500 mx-2">/</span>
-        </li>
-        <li>
-            <a href="{{ route('dashboard.services.index') }}" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">Services</a>
-        </li>
-        <li>
-            <span class="text-gray-400 dark:text-gray-500 mx-2">/</span>
-        </li>
-        <li>
-            <span class="text-gray-700 dark:text-gray-300 truncate max-w-xs">{{ $service->title }}</span>
-        </li>
-    </ol>
-</nav>
-@endsection
-
 @section('content')
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
     <form method="POST" 
@@ -36,21 +14,11 @@
         @method('PUT')
         
         <div class="p-6">
-            @include('admin.services._form-tabs', ['service' => $service, 'projects' => $projects])
+            @include('admin.services._form-tabs', ['service' => $service])
         </div>
         
-        <!-- Form Actions -->
         <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600 rounded-b-lg flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <label class="flex items-center">
-                    <input type="checkbox" 
-                           name="is_published" 
-                           value="1"
-                           {{ $service->is_published ? 'checked' : '' }}
-                           class="rounded border-gray-300 dark:border-gray-600 text-primary-600 shadow-sm focus:ring-primary-500">
-                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Published</span>
-                </label>
-                
                 <label class="flex items-center">
                     <input type="checkbox" 
                            name="is_featured" 
@@ -85,7 +53,6 @@
 function serviceForm() {
     return {
         loading: false,
-        
         submitForm($event) {
             this.loading = true;
             $event.target.submit();

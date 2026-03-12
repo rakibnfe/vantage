@@ -4,46 +4,62 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Service;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ServicePolicy
 {
-    public function viewAny(User $user)
+    use HandlesAuthorization;
+
+    public function before(User $user): ?bool
     {
-        return true;
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        
+        return null;
     }
 
-    public function view(User $user, Service $service)
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->hasPermissionTo('view services');
     }
 
-    public function create(User $user)
+    public function view(User $user, Service $service): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasPermissionTo('view services');
     }
 
-    public function update(User $user, Service $service)
+    public function create(User $user): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasPermissionTo('create services');
     }
 
-    public function delete(User $user, Service $service)
+    public function update(User $user, Service $service): bool
     {
-        return $user->hasRole('admin');
+        if (!$user->hasPermissionTo('edit services')) {
+            return false;
+        }
+
+        return $user->id === $service->user_id || $user->hasRole('admin');
     }
 
-    public function toggleStatus(User $user)
+    public function delete(User $user, Service $service): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin') && $user->hasPermissionTo('delete services');
     }
 
-    public function clone(User $user)
+    public function reorder(User $user): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasPermissionTo('reorder services');
     }
 
-    public function reorder(User $user)
+    public function toggleStatus(User $user, Service $service): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasPermissionTo('publish services');
+    }
+
+    public function clone(User $user, Service $service): bool
+    {
+        return $user->hasPermissionTo('create services');
     }
 }

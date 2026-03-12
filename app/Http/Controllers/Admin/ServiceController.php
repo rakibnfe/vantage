@@ -2,98 +2,119 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
+use App\Http\Requests\Admin\ServiceRequest;
+use App\Http\Requests\Admin\ServiceReorderRequest;
 use App\Models\Service;
-use Illuminate\Http\Request;
 use App\Services\Admin\ServiceService;
-use App\Http\Requests\Admin\StoreServiceRequest;
-use App\Http\Requests\Admin\UpdateServiceRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
-class ServiceController extends Controller
+class ServiceController extends BaseController
 {
-    protected $serviceService;
-
-    public function __construct(ServiceService $serviceService)
-    {
-        $this->serviceService = $serviceService;
-        // $this->authorizeResource(Service::class, 'service');
+    public function __construct(
+        private readonly ServiceService $service
+    ) {
+        $this->authorizeResource(Service::class, 'service');
     }
 
-    public function index()
+    public function index(): View
     {
-        $services = Service::ordered()->paginate(20);
-
+        $services = $this->service->paginate(request()->only([
+            'search', 'status', 'is_featured', 'sort_field', 'sort_direction'
+        ]));
+        
         return view('admin.services.index', compact('services'));
     }
 
-    public function create()
+    public function create(): View
     {
-        return view('admin.services.create');
+        $data = $this->service->getFormData();
+        return view('admin.services.create', $data);
     }
 
-    public function store(StoreServiceRequest $request)
+    public function store(ServiceRequest $request): JsonResponse
     {
-        $service = $this->serviceService->create($request->validated());
-
-        return redirect()
-            ->route('dashboard.services.edit', $service)
-            ->with('success', 'Service created successfully.');
+        $service = $this->service->create($request);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Service created successfully.',
+            'redirect' => route('dashboard.services.edit', $service)
+        ]);
     }
 
-    public function show(Service $service)
+    public function show(Service $service): View
     {
-        return view('admin.services.show', compact('service'));
+        return view('admin.services.show', [
+            'service' => $service->load([
+                'features',
+                'processSteps',
+                'faqs',
+                'technologies',
+                'pricingModels',
+                'projects'
+            ])
+        ]);
     }
 
-    public function edit(Service $service)
+    public function edit(Service $service): View
     {
-        return view('admin.services.edit', compact('service'));
+        $data = $this->service->getFormData($service);
+        return view('admin.services.edit', $data);
     }
 
-    public function update(UpdateServiceRequest $request, Service $service)
+    public function update(ServiceRequest $request, Service $service): JsonResponse
     {
-        $this->serviceService->update($service, $request->validated());
-
-        return redirect()
-            ->route('dashboard.services.edit', $service)
-            ->with('success', 'Service updated.');
+        $this->service->update($service, $request);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Service updated successfully.',
+            'redirect' => route('dashboard.services.edit', $service)
+        ]);
     }
 
-    public function destroy(Service $service)
+    public function destroy(Service $service): JsonResponse
     {
-        $this->serviceService->delete($service);
-
-        return redirect()
-            ->route('dashboard.services.index')
-            ->with('success', 'Service deleted.');
+        $this->service->delete($service);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Service deleted successfully.',
+            'redirect' => route('dashboard.services.index')
+        ]);
     }
 
-    public function toggleStatus(Service $service)
+    public function reorder(ServiceReorderRequest $request): JsonResponse
     {
-        // $this->authorize('toggleStatus', $service);
-
-        $this->serviceService->toggleStatus($service);
-
-        return back()->with('success', 'Status updated.');
+        $this->service->reorder($request->items);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Services reordered successfully.'
+        ]);
     }
 
-    public function clone(Service $service)
+    public function toggleStatus(Service $service): JsonResponse
     {
-        // $this->authorize('clone', $service);
-
-        $newService = $this->serviceService->clone($service);
-
-        return redirect()
-            ->route('dashboard.services.edit', $newService)
-            ->with('success', 'Service cloned.');
+        $status = $this->service->toggleStatus($service);
+        
+        return response()->json([
+            'success' => true,
+            'message' => $status ? 'Service published.' : 'Service unpublished.',
+            'status' => $status
+        ]);
     }
 
-    public function reorder(Request $request)
+    public function clone(Service $service): JsonResponse
     {
-        // $this->authorize('reorder', Service::class);
-
-        $this->serviceService->reorder($request->input('items'));
-
-        return response()->json(['success' => true]);
+        $newService = $this->service->clone($service);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Service cloned successfully.',
+            'redirect' => route('dashboard.services.edit', $newService)
+        ]);
     }
 }

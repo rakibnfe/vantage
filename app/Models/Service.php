@@ -7,54 +7,76 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Service extends Model
+class Service extends Model implements HasMedia
 {
-    use HasFactory, LogsActivity;
+    use HasFactory, LogsActivity, InteractsWithMedia;
 
     protected $fillable = [
         'title',
         'slug',
         'tagline',
         'icon',
-        'featured_image',
         'overview',
         'description',
-        'process',
-        'features',
-        'technologies',
-        'pricing_models',
-        'faqs',
-        'success_stories',
-        'delivery_timeframe',
-        'team_size',
-        'consultation_url',
-        'related_projects',
         'meta_title',
         'meta_description',
         'order',
         'is_published',
         'is_featured',
         'published_at',
+        'user_id',
     ];
 
     protected $casts = [
-        'process' => 'json',
-        'features' => 'json',
-        'technologies' => 'json',
-        'pricing_models' => 'json',
-        'faqs' => 'json',
-        'related_projects' => 'json',
         'is_published' => 'boolean',
         'is_featured' => 'boolean',
         'published_at' => 'datetime',
     ];
 
-    // Relationships
+    protected static function booted()
+    {
+        static::creating(function ($service) {
+            if (auth()->check()) {
+                $service->user_id = auth()->id();
+            }
+        });
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('featured_image')
+            ->singleFile()
+            ->registerMediaConversions(function (Media $media) {
+                $this->addMediaConversion('thumb')
+                    ->width(150)
+                    ->height(150)
+                    ->sharpen(10);
+                
+                $this->addMediaConversion('preview')
+                    ->width(800)
+                    ->height(600);
+            });
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(150)
+            ->height(150)
+            ->sharpen(10);
+        
+        $this->addMediaConversion('preview')
+            ->width(800)
+            ->height(600);
+    }
+
     public function features(): HasMany
     {
         return $this->hasMany(ServiceFeature::class);
@@ -80,21 +102,15 @@ class Service extends Model
         return $this->hasMany(ServicePricingModel::class);
     }
 
-   public function projects(): BelongsToMany
-{
-    return $this->belongsToMany(Project::class, 'service_project')
-                ->withTimestamps(); 
-}
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'service_project')
+            ->withTimestamps();
+    }
 
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable');
-    }
-
-    public function featuredImage(): MorphOne
-    {
-        return $this->morphOne(\Spatie\MediaLibrary\MediaCollections\Models\Media::class, 'model')
-            ->where('collection_name', 'featured_image');
     }
 
     public function activities(): MorphMany
@@ -102,7 +118,11 @@ class Service extends Model
         return $this->morphMany(\Spatie\ActivityLog\Models\Activity::class, 'subject');
     }
 
-    // Activity Log Options
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -118,7 +138,6 @@ class Service extends Model
             ->dontSubmitEmptyLogs();
     }
 
-    // Scopes
     public function scopePublished($query)
     {
         return $query->where('is_published', true);
@@ -134,12 +153,15 @@ class Service extends Model
         return $query->orderBy('order');
     }
 
-    public function scopeWithRelations($query)
+    public function getFeaturedImageUrl(string $conversion = ''): string
     {
-        return $query->with(['features', 'processSteps', 'faqs', 'technologies', 'pricingModels']);
+        if ($this->getFirstMedia('featured_image')) {
+            return $this->getFirstMedia('featured_image')->getUrl($conversion);
+        }
+        
+        return asset('images/placeholder-service.jpg');
     }
 
-    // Methods
     public function getTechnologiesList(): array
     {
         return $this->technologies()->pluck('name')->toArray();

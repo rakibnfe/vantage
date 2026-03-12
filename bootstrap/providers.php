@@ -6,4 +6,6 @@ return [
     App\Providers\HelperServiceProvider::class,
     App\Providers\RouteServiceProvider::class,
     App\Providers\AuthServiceProvider::class,
+    App\Providers\RepositoryServiceProvider::class,
+
 ];
