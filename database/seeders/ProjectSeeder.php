@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Project;
 use App\Models\User;
-use App\Models\Service;
+use App\Models\Offering;
 use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +13,7 @@ class ProjectSeeder extends Seeder
     public function run(): void
     {
         $admin = User::where('role', 'admin')->first();
-        $services = Service::all();
+        $offerings = Offering::all();
         $tags = Tag::all();
 
         // Get specific tags
@@ -182,9 +182,9 @@ class ProjectSeeder extends Seeder
             $projectTags = $tags->random(rand(3, 6))->pluck('id')->toArray();
             $project->tags()->attach($projectTags);
             
-            // Attach to services (many-to-many)
-            $serviceIds = $services->random(rand(1, 3))->pluck('id')->toArray();
-            $project->services()->attach($serviceIds);
+            // Attach to offerings (many-to-many)
+            $offeringIds = $offerings->random(rand(1, 3))->pluck('id')->toArray();
+            $project->offerings()->attach($offeringIds);
         }
     }
 }

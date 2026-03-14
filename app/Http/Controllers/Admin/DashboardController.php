@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Service;
+use App\Models\Offering;
 use App\Models\Project;
 use App\Models\Article;
 use App\Models\Contact;
@@ -18,8 +18,8 @@ class DashboardController extends Controller
     public function index()
     {
         $stats = [
-            'total_services' => Service::count(),
-            'published_services' => Service::where('is_published', true)->count(),
+            'total_offerings' => Offering::count(),
+            'published_offerings' => Offering::where('is_published', true)->count(),
             'total_projects' => Project::count(),
             'published_projects' => Project::where('is_published', true)->count(),
             'total_articles' => Article::count(),
@@ -40,7 +40,7 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
         
-        $popularServices = Service::withCount('projects')
+        $popularOfferings = Offering::withCount('projects')
             ->orderBy('projects_count', 'desc')
             ->take(5)
             ->get();
@@ -51,7 +51,7 @@ class DashboardController extends Controller
             'stats',
             'recentContacts',
             'upcomingBookings',
-            'popularServices',
+            'popularOfferings',
             'chartData'
         ));
     }

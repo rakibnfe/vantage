@@ -8,14 +8,14 @@
     
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Services Card -->
+        <!-- Offerings Card -->
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Services</p>
-                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ $stats['total_services'] }}</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Offerings</p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ $stats['total_offerings'] }}</p>
                     <p class="text-sm text-green-600 dark:text-green-400 mt-2">
-                        {{ $stats['published_services'] }} published
+                        {{ $stats['published_offerings'] }} published
                     </p>
                 </div>
                 <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center">
@@ -24,8 +24,8 @@
                     </svg>
                 </div>
             </div>
-            <a href="{{ route('dashboard.services.index') }}" class="mt-4 inline-flex items-center text-sm text-primary-600 hover:text-primary-700">
-                View all services
+            <a href="{{ route('dashboard.offerings.index') }}" class="mt-4 inline-flex items-center text-sm text-primary-600 hover:text-primary-700">
+                View all offerings
                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
@@ -115,11 +115,11 @@
             </div>
         </div>
 
-        <!-- Popular Services -->
+        <!-- Popular Offerings -->
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Popular Services</h3>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Popular Offerings</h3>
             <div class="space-y-4">
-                @foreach($popularServices as $service)
+                @foreach($popularOfferings as $offering)
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
@@ -128,12 +128,12 @@
                                 </svg>
                             </div>
                             <div>
-                                <p class="font-medium text-gray-900 dark:text-white">{{ $service->title }}</p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $service->projects_count }} projects</p>
+                                <p class="font-medium text-gray-900 dark:text-white">{{ $offering->title }}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $offering->projects_count }} projects</p>
                             </div>
                         </div>
                         <div class="text-sm font-medium text-primary-600 dark:text-primary-400">
-                            {{ $service->projects_count }}
+                            {{ $offering->projects_count }}
                         </div>
                     </div>
                 @endforeach
@@ -210,14 +210,14 @@
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <a href="{{ route('dashboard.services.create') }}" 
+            <a href="{{ route('dashboard.offerings.create') }}" 
                class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 transition group">
                 <div class="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition">
                     <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                 </div>
-                <p class="text-sm font-medium text-gray-700 dark:text-gray-300">New Service</p>
+                <p class="text-sm font-medium text-gray-700 dark:text-gray-300">New Offering</p>
             </a>
 
             <a href="{{ route('dashboard.projects.create') }}" 

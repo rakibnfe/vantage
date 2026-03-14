@@ -7,23 +7,23 @@
         How we bring your ideas to life
       </p>
 
-      <!-- Service Filter -->
+      <!-- Offering Filter -->
       <div class="mb-12 flex flex-wrap gap-2 justify-center">
         <button 
-          @click="selectedService = null"
+          @click="selectedOffering = null"
           class="px-4 py-2 rounded-full transition"
-          :class="!selectedService ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+          :class="!selectedOffering ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
         >
           All Processes
         </button>
         <button 
-          v-for="service in services" 
-          :key="service.id"
-          @click="selectedService = service.id"
+          v-for="offering in offerings" 
+          :key="offering.id"
+          @click="selectedOffering = offering.id"
           class="px-4 py-2 rounded-full transition"
-          :class="selectedService === service.id ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+          :class="selectedOffering === offering.id ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
         >
-          {{ service.title }}
+          {{ offering.title }}
         </button>
       </div>
 
@@ -55,7 +55,7 @@
                 Duration: {{ step.duration }}
               </p>
               <p class="text-sm text-gray-500">
-                Service: {{ step.service?.title }}
+                Offering: {{ step.offering?.title }}
               </p>
             </div>
 
@@ -93,9 +93,9 @@ import {
 } from '@heroicons/vue/24/outline'
 
 const processSteps = ref([])
-const services = ref([])
+const offerings = ref([])
 const loading = ref(true)
-const selectedService = ref(null)
+const selectedOffering = ref(null)
 
 const iconMap = {
   'code': CodeBracketIcon,
@@ -126,8 +126,8 @@ const fetchProcessSteps = async () => {
       _: Date.now()
     }
     
-    if (selectedService.value) {
-      params.service_id = selectedService.value
+    if (selectedOffering.value) {
+      params.offering_id = selectedOffering.value
     }
     
     const response = await axios.get('/api/v1/process-steps', { params })
@@ -143,30 +143,30 @@ const fetchProcessSteps = async () => {
   }
 }
 
-const fetchServices = async () => {
+const fetchOfferings = async () => {
   try {
-    const response = await axios.get('/api/v1/services', {
+    const response = await axios.get('/api/v1/offerings', {
       params: { per_page: 100, published: true }
     })
     
     if (response.data?.data) {
-      services.value = response.data.data.map(s => ({
+      offerings.value = response.data.data.map(s => ({
         id: s.id,
         title: s.title
       }))
     }
   } catch (error) {
-    console.error('Failed to fetch services:', error)
-    services.value = []
+    console.error('Failed to fetch offerings:', error)
+    offerings.value = []
   }
 }
 
-watch(selectedService, () => {
+watch(selectedOffering, () => {
   fetchProcessSteps()
 })
 
 onMounted(() => {
-  fetchServices()
+  fetchOfferings()
   fetchProcessSteps()
 })
 </script>

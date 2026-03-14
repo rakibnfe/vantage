@@ -7,8 +7,8 @@
     <!-- Featured Projects with Carousel -->
     <FeaturedProjects />
     
-    <!-- Services -->
-    <ServicesOverview />
+    <!-- Offerings -->
+    <OfferingsOverview />
     
     <!-- Recent Articles -->
     <RecentArticles />
@@ -30,7 +30,7 @@
 <script setup>
 import HeroSection from '@/Components/Public/Home/HeroSection.vue'
 import FeaturedProjects from '@/Components/Public/Home/FeaturedProjects.vue'
-import ServicesOverview from '@/Components/Public/Home/ServicesOverview.vue'
+import OfferingsOverview from '@/Components/Public/Home/OfferingsOverview.vue'
 import RecentArticles from '@/Components/Public/Home/RecentArticles.vue'
 import FeaturedArticles from '@/Components/Public/Home/FeaturedArticles.vue'
 

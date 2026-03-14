@@ -1,6 +1,6 @@
-# 🚀 Vantage - Portfolio & Service Management System
+# 🚀 Vantage - Portfolio & Offering Management System
 
-**Production-ready portfolio and service management platform built with Laravel 11 + Vue 3 SPA**
+**Production-ready portfolio and offering management platform built with Laravel 11 + Vue 3 SPA**
 
 ---
 
@@ -75,7 +75,7 @@ http://localhost:8000
 
 ### Admin Panel (Blade Templates)
 - ✅ **Dashboard** - Stats, analytics, quick actions
-- ⏳ **Management** - Services, Projects, Articles, Bookings, etc.
+- ⏳ **Management** - Offerings, Projects, Articles, Bookings, etc.
 - ⏳ **Analytics** - Visitor tracking, page views, insights
 - ⏳ **Settings** - Site configuration, backups, logs
 
@@ -84,7 +84,7 @@ http://localhost:8000
 ## 🎯 Key Features
 
 ### Content Management
-- **Services** - Service offerings with features, pricing, FAQs, process steps
+- **Offerings** - Offering offerings with features, pricing, FAQs, process steps
 - **Projects** - Portfolio with case studies, technologies, links
 - **Articles** - Blog posts with categories and tags
 - **Tools** - Tool tracking and usage analytics

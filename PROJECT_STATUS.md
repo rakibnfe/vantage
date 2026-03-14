@@ -1,6 +1,6 @@
 # 📊 PROJECT STATUS - VANTAGE
 
-**Project:** Vantage Portfolio & Service Management System  
+**Project:** Vantage Portfolio & Offering Management System  
 **Framework:** Laravel 11 + Vue 3 + Tailwind CSS  
 **Status:** In Development  
 **Last Updated:** March 11, 2026
@@ -9,10 +9,10 @@
 
 ## 🎯 Project Overview
 
-Vantage is a comprehensive portfolio and service management system featuring:
+Vantage is a comprehensive portfolio and offering management system featuring:
 - **Authentication System** with role-based access control
 - **Admin Dashboard** with analytics and management capabilities
-- **Content Management** for services, projects, articles, and tools
+- **Content Management** for offerings, projects, articles, and tools
 - **Booking System** for appointments and consultations
 - **Analytics & Insights** for visitor and content tracking
 - **Media Management** for file uploads and organization
@@ -58,9 +58,9 @@ All 31 tables created and migrated successfully:
 
 | Table Group | Tables | Status |
 |-------------|--------|--------|
-| Core Tables | users, categories, tags, articles, projects, services | ✅ |
-| Service Details | service_features, service_process_steps, service_faqs, service_technologies, service_pricing_models | ✅ |
-| Relationships | service_project, taggables | ✅ |
+| Core Tables | users, categories, tags, articles, projects, offerings | ✅ |
+| Offering Details | offering_features, offering_process_steps, offering_faqs, offering_technologies, offering_pricing_models | ✅ |
+| Relationships | offering_project, taggables | ✅ |
 | Activity Tables | contacts, schedules, testimonials, tools, tool_usages | ✅ |
 | Analytics | visitors, page_views, activity_log | ✅ |
 | Permissions | permissions, roles, role_has_permissions | ✅ |
@@ -76,22 +76,22 @@ All 31 tables created and migrated successfully:
 |-------|--------|---------------|-------|
 | User | ✅ | hasMany(articles), hasMany(projects) | With roles |
 | Article | ✅ | belongsTo(user), belongsTo(category), morphMany(tags) | SEO fields |
-| Project | ✅ | belongsTo(user), belongsToMany(services), morphMany(tags) | Case study fields |
-| Service | ✅ | hasMany(features/steps/faqs/tech/pricing), belongsToMany(projects) | Complex relations |
+| Project | ✅ | belongsTo(user), belongsToMany(offerings), morphMany(tags) | Case study fields |
+| Offering | ✅ | hasMany(features/steps/faqs/tech/pricing), belongsToMany(projects) | Complex relations |
 | Category | ✅ | hasMany(articles) | Simple category |
 | Tag | ✅ | morphedByMany(articles/projects) | Polymorphic |
 | Contact | ✅ | - | Inquiry tracking |
-| Schedule | ✅ | belongsTo(service, optional) | Booking system |
-| Testimonial | ✅ | belongsTo(service, optional), belongsTo(project, optional) | Reviews |
+| Schedule | ✅ | belongsTo(offering, optional) | Booking system |
+| Testimonial | ✅ | belongsTo(offering, optional), belongsTo(project, optional) | Reviews |
 | Tool | ✅ | hasMany(usages) | Tool tracking |
 | ToolUsage | ✅ | belongsTo(tool) | Usage records |
 | Visitor | ✅ | hasMany(pageViews) | Analytics |
 | PageView | ✅ | - | Page analytics |
-| ServiceFeature | ✅ | belongsTo(service) | Service features |
-| ServiceProcessStep | ✅ | belongsTo(service) | Process steps |
-| ServiceFAQ | ✅ | belongsTo(service) | FAQs |
-| ServiceTechnology | ✅ | belongsTo(service) | Tech stack |
-| ServicePricingModel | ✅ | belongsTo(service) | Pricing tiers |
+| OfferingFeature | ✅ | belongsTo(offering) | Offering features |
+| OfferingProcessStep | ✅ | belongsTo(offering) | Process steps |
+| OfferingFAQ | ✅ | belongsTo(offering) | FAQs |
+| OfferingTechnology | ✅ | belongsTo(offering) | Tech stack |
+| OfferingPricingModel | ✅ | belongsTo(offering) | Pricing tiers |
 
 **Location:** `app/Models/` ✅
 
@@ -110,7 +110,7 @@ All 31 tables created and migrated successfully:
 | Section | Routes | Status |
 |---------|--------|--------|
 | Dashboard | dashboard, stats, activities | ✅ |
-| Services | CRUD + reorder + toggle + clone | ✅ |
+| Offerings | CRUD + reorder + toggle + clone | ✅ |
 | Projects | CRUD + reorder + toggleFeatured + togglePublished | ✅ |
 | Articles | CRUD + toggle + categories management | ✅ |
 | Bookings | CRUD + calendar + approve/decline/complete + availability | ✅ |
@@ -133,7 +133,7 @@ All 31 tables created and migrated successfully:
 | Admin Master Layout | ✅ | Base Blade template |
 | Dashboard View | ✅ | Full dashboard with charts |
 | Dashboard Controller | ✅ | Stats, activities, charts |
-| Service Views | ⏳ | Structure created, content needed |
+| Offering Views | ⏳ | Structure created, content needed |
 | Project Views | ⏳ | Structure created, content needed |
 | Article Views | ⏳ | Structure created, content needed |
 | Booking Views | ⏳ | Structure created, content needed |
@@ -187,17 +187,17 @@ All 31 tables created and migrated successfully:
 
 All controller structures exist in `app/Http/Controllers/Admin/` but methods need implementation:
 
-**ServiceController** (Routes: 9)
-- [ ] `index()` - List services with pagination, search, filters
+**OfferingController** (Routes: 9)
+- [ ] `index()` - List offerings with pagination, search, filters
 - [ ] `create()` - Show creation form with features/process/faqs/pricing forms
-- [ ] `store()` - Save service and related data
-- [ ] `show()` - View service details
+- [ ] `store()` - Save offering and related data
+- [ ] `show()` - View offering details
 - [ ] `edit()` - Edit form with all related data
-- [ ] `update()` - Update service and related data
-- [ ] `destroy()` - Delete service and cascade
-- [ ] `reorder()` - Reorder services via drag-drop
+- [ ] `update()` - Update offering and related data
+- [ ] `destroy()` - Delete offering and cascade
+- [ ] `reorder()` - Reorder offerings via drag-drop
 - [ ] `toggleStatus()` - Toggle published status
-- [ ] `clone()` - Duplicate service
+- [ ] `clone()` - Duplicate offering
 
 **ProjectController** (Routes: 10)
 - [ ] `index()` - List projects with filters
@@ -311,12 +311,12 @@ Create Blade templates for each admin section:
 **Dashboard** (Already exists)
 - ✅ `resources/views/admin/dashboard/index.blade.php`
 
-**Services Management**
-- [ ] `resources/views/admin/services/index.blade.php` - Service list
-- [ ] `resources/views/admin/services/create.blade.php` - Create form
-- [ ] `resources/views/admin/services/edit.blade.php` - Edit form
-- [ ] `resources/views/admin/services/show.blade.php` - Details
-- [ ] `resources/views/admin/services/_form.blade.php` - Shared form partial
+**Offerings Management**
+- [ ] `resources/views/admin/offerings/index.blade.php` - Offering list
+- [ ] `resources/views/admin/offerings/create.blade.php` - Create form
+- [ ] `resources/views/admin/offerings/edit.blade.php` - Edit form
+- [ ] `resources/views/admin/offerings/show.blade.php` - Details
+- [ ] `resources/views/admin/offerings/_form.blade.php` - Shared form partial
 
 **Projects Management**
 - [ ] `resources/views/admin/projects/index.blade.php`
@@ -383,8 +383,8 @@ Create Blade templates for each admin section:
 
 Public-facing pages using Vue 3 in SPA:
 
-- [ ] Home page with featured projects/services
-- [ ] Services listing and detail pages
+- [ ] Home page with featured projects/offerings
+- [ ] Offerings listing and detail pages
 - [ ] Projects listing and detail pages
 - [ ] Blog/Articles listing and detail pages
 - [ ] Tools page
@@ -406,8 +406,8 @@ Public-facing pages using Vue 3 in SPA:
 Create RESTful API endpoints (routes/api.php):
 
 **Public API**
-- [ ] GET /api/services - List all published services
-- [ ] GET /api/services/{slug} - Get service details
+- [ ] GET /api/offerings - List all published offerings
+- [ ] GET /api/offerings/{slug} - Get offering details
 - [ ] GET /api/projects - List all published projects
 - [ ] GET /api/projects/{slug} - Get project details
 - [ ] GET /api/articles - List all published articles
@@ -434,7 +434,7 @@ Create RESTful API endpoints (routes/api.php):
 
 - [ ] Navigation component
 - [ ] Hero section component
-- [ ] Service card component
+- [ ] Offering card component
 - [ ] Project card component
 - [ ] Blog card component
 - [ ] Testimonial carousel
@@ -481,7 +481,7 @@ When providing code for the remaining tasks, follow this priority:
 ### Step 1: Implement Controller Methods
 **Suggested Order:**
 1. DashboardController (1 method - already done)
-2. ServiceController (10 methods)
+2. OfferingController (10 methods)
 3. ProjectController (10 methods)
 4. ArticleController (11 methods)
 5. BookingController (12 methods)

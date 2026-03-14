@@ -241,7 +241,7 @@ php artisan route:list
 # Check database
 php artisan tinker
 >>> User::count()
->>> Service::count()
+>>> Offering::count()
 
 # Start development
 php artisan serve     # Terminal 1

@@ -39,7 +39,7 @@ class ProjectResource extends JsonResource
             'updated_at' => $this->updated_at?->toISOString(),
             'user' => $this->whenLoaded('user', fn() => new UserResource($this->user)),
             'tags' => $this->whenLoaded('tags', fn() => TagResource::collection($this->tags)),
-            'services' => $this->whenLoaded('services', fn() => ServiceResource::collection($this->services)),
+            'offerings' => $this->whenLoaded('offerings', fn() => OfferingResource::collection($this->offerings)),
             'duration_days' => $this->getDurationInDays(),
             'technologies_list' => $this->getTechnologiesList(),
         ];

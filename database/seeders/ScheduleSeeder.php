@@ -6,7 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Schedule;
 use App\Models\User;
-use App\Models\Service;
+use App\Models\Offering;
 use Carbon\Carbon;
 
 class ScheduleSeeder extends Seeder
@@ -14,7 +14,7 @@ class ScheduleSeeder extends Seeder
     public function run(): void
     {
         $users = User::all();
-        $services = Service::all();
+        $offerings = Offering::all();
 
         // Availability (working hours)
         $availabilities = [
@@ -60,7 +60,7 @@ class ScheduleSeeder extends Seeder
                 'customer_name' => 'John Doe',
                 'customer_email' => 'john@example.com',
                 'customer_phone' => '+1234567890',
-                'customer_notes' => 'Interested in web development services',
+                'customer_notes' => 'Interested in web development offerings',
                 'color' => '#4f46e5',
             ],
             [
@@ -91,7 +91,7 @@ class ScheduleSeeder extends Seeder
             Schedule::create(array_merge($data, [
                 'slug' => 'appointment-' . uniqid(),
                 'user_id' => $users->random()->id,
-                'service_id' => $services->isNotEmpty() ? $services->random()->id : null,
+                'offering_id' => $offerings->isNotEmpty() ? $offerings->random()->id : null,
             ]));
         }
 

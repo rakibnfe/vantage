@@ -12,14 +12,14 @@
         <div v-for="n in 3" :key="n" class="h-64 bg-white dark:bg-gray-800 rounded-xl animate-pulse"></div>
       </div>
 
-      <!-- Pricing by Service -->
+      <!-- Pricing by Offering -->
       <div v-else-if="pricingData.length" class="space-y-16">
-        <div v-for="service in pricingData" :key="service.service.id" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
-          <h2 class="text-3xl font-bold mb-6">{{ service.service.title }}</h2>
+        <div v-for="offering in pricingData" :key="offering.offering.id" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+          <h2 class="text-3xl font-bold mb-6">{{ offering.offering.title }}</h2>
           
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div 
-              v-for="model in service.pricing_models" 
+              v-for="model in offering.pricing_models" 
               :key="model.id"
               class="border-2 rounded-xl p-6 transition-all hover:border-primary-600 hover:shadow-xl"
               :class="getPopularClass(model)"

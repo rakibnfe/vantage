@@ -2,16 +2,16 @@
 
 namespace App\Providers;
 
-use App\Models\Service;
-use App\Repositories\ServiceRepository;
+use App\Models\Offering;
+use App\Repositories\OfferingRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind(ServiceRepository::class, function ($app) {
-            return new ServiceRepository($app->make(Service::class));
+        $this->app->bind(OfferingRepository::class, function ($app) {
+            return new OfferingRepository($app->make(Offering::class));
         });
     }
 

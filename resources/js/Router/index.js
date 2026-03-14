@@ -12,9 +12,9 @@ import HomePage from '@/Pages/Public/Home/HomePage.vue'
 import WorkListPage from '@/Pages/Public/Work/WorkListPage.vue'
 import WorkDetailPage from '@/Pages/Public/Work/WorkDetailPage.vue'
 
-// Services
-import ServicesListPage from '@/Pages/Public/Services/ServicesListPage.vue'
-import ServiceDetailPage from '@/Pages/Public/Services/ServiceDetailPage.vue'
+// Offerings
+import OfferingsListPage from '@/Pages/Public/Offerings/OfferingsListPage.vue'
+import OfferingDetailPage from '@/Pages/Public/Offerings/OfferingDetailPage.vue'
 
 // Notes/Articles
 import NotesListPage from '@/Pages/Public/Notes/NotesListPage.vue'
@@ -73,9 +73,9 @@ const routes = [
       { path: 'work', name: 'work.list', component: WorkListPage },
       { path: 'work/:slug', name: 'work.detail', component: WorkDetailPage },
 
-      // Services Routes
-      { path: 'services', name: 'services.list', component: ServicesListPage },
-      { path: 'services/:slug', name: 'services.detail', component: ServiceDetailPage },
+      // Offerings Routes
+      { path: 'offerings', name: 'offerings.list', component: OfferingsListPage },
+      { path: 'offerings/:slug', name: 'offerings.detail', component: OfferingDetailPage },
 
       // Notes Routes
       { path: 'notes', name: 'notes.list', component: NotesListPage },

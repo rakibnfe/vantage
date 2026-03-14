@@ -17,7 +17,7 @@ class ScheduleController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Schedule::with(['user', 'service']);
+            $query = Schedule::with(['user', 'offering']);
 
             // Filter by date range (for calendar)
             if ($request->has('start') && $request->has('end')) {
@@ -83,7 +83,7 @@ class ScheduleController extends Controller
                 'customer_notes' => 'nullable|string',
                 'color' => 'nullable|string',
                 'location' => 'nullable|string',
-                'service_id' => 'nullable|exists:services,id',
+                'offering_id' => 'nullable|exists:offerings,id',
             ]);
 
             // Generate unique slug
@@ -103,7 +103,7 @@ class ScheduleController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => new ScheduleResource($schedule->load(['user', 'service'])),
+                'data' => new ScheduleResource($schedule->load(['user', 'offering'])),
                 'message' => 'Schedule created successfully'
             ], 201);
             
@@ -126,7 +126,7 @@ class ScheduleController extends Controller
     public function show($id)
     {
         try {
-            $schedule = Schedule::with(['user', 'service'])->find($id);
+            $schedule = Schedule::with(['user', 'offering'])->find($id);
             
             if (!$schedule) {
                 return response()->json([
@@ -175,7 +175,7 @@ class ScheduleController extends Controller
                 'customer_notes' => 'nullable|string',
                 'color' => 'nullable|string',
                 'location' => 'nullable|string',
-                'service_id' => 'nullable|exists:services,id',
+                'offering_id' => 'nullable|exists:offerings,id',
             ]);
 
             // If title is being updated, update slug
@@ -187,7 +187,7 @@ class ScheduleController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => new ScheduleResource($schedule->load(['user', 'service'])),
+                'data' => new ScheduleResource($schedule->load(['user', 'offering'])),
                 'message' => 'Schedule updated successfully'
             ]);
             
@@ -240,7 +240,7 @@ class ScheduleController extends Controller
             $request->validate([
                 'start_time' => 'required|date',
                 'end_time' => 'required|date|after:start_time',
-                'service_id' => 'nullable|exists:services,id',
+                'offering_id' => 'nullable|exists:offerings,id',
                 'exclude_id' => 'nullable|exists:schedules,id',
             ]);
 
@@ -281,7 +281,7 @@ class ScheduleController extends Controller
             $request->validate([
                 'date' => 'required|date',
                 'duration' => 'required|integer|min:15',
-                'service_id' => 'nullable|exists:services,id',
+                'offering_id' => 'nullable|exists:offerings,id',
             ]);
 
             $date = $request->date;

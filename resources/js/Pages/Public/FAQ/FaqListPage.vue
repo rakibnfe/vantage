@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto px-4">
       <h1 class="text-4xl font-bold text-center mb-4">Frequently Asked Questions</h1>
       <p class="text-xl text-center text-gray-600 dark:text-gray-400 mb-12">
-        Find answers to common questions about our services
+        Find answers to common questions about our offerings
       </p>
 
       <!-- Search -->
@@ -19,23 +19,23 @@
         </div>
       </div>
 
-      <!-- Filter by Service -->
+      <!-- Filter by Offering -->
       <div class="mb-8 flex flex-wrap gap-2 justify-center">
         <button 
-          @click="selectedService = null"
+          @click="selectedOffering = null"
           class="px-4 py-2 rounded-full transition"
-          :class="!selectedService ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+          :class="!selectedOffering ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
         >
-          All Services
+          All Offerings
         </button>
         <button 
-          v-for="service in services" 
-          :key="service.id"
-          @click="selectedService = service.id"
+          v-for="offering in offerings" 
+          :key="offering.id"
+          @click="selectedOffering = offering.id"
           class="px-4 py-2 rounded-full transition"
-          :class="selectedService === service.id ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+          :class="selectedOffering === offering.id ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
         >
-          {{ service.title }}
+          {{ offering.title }}
         </button>
       </div>
 
@@ -66,8 +66,8 @@
             class="px-6 pb-4"
           >
             <p class="text-gray-600 dark:text-gray-400 mb-3">{{ faq.answer }}</p>
-            <p v-if="faq.service" class="text-sm text-primary-600">
-              Related Service: {{ faq.service.title }}
+            <p v-if="faq.offering" class="text-sm text-primary-600">
+              Related Offering: {{ faq.offering.title }}
             </p>
           </div>
         </div>
@@ -112,11 +112,11 @@ import { useDebounce } from '@vueuse/core'
 
 // State
 const faqs = ref([])
-const services = ref([])
+const offerings = ref([])
 const loading = ref(true)
 const searchQuery = ref('')
 const debouncedSearch = useDebounce(searchQuery, 300)
-const selectedService = ref(null)
+const selectedOffering = ref(null)
 const openFaqs = ref([])
 const currentPage = ref(1)
 const perPage = ref(20)
@@ -144,8 +144,8 @@ const fetchFaqs = async () => {
       _: Date.now()
     }
     
-    if (selectedService.value) {
-      params.service_id = selectedService.value
+    if (selectedOffering.value) {
+      params.offering_id = selectedOffering.value
     }
     
     if (searchQuery.value) {
@@ -172,32 +172,32 @@ const fetchFaqs = async () => {
   }
 }
 
-const fetchServices = async () => {
+const fetchOfferings = async () => {
   try {
-    const response = await axios.get('/api/v1/services', {
+    const response = await axios.get('/api/v1/offerings', {
       params: { per_page: 100, published: true }
     })
     
     if (response.data?.data) {
-      services.value = response.data.data.map(s => ({
+      offerings.value = response.data.data.map(s => ({
         id: s.id,
         title: s.title
       }))
     }
   } catch (error) {
-    console.error('Failed to fetch services:', error)
-    services.value = []
+    console.error('Failed to fetch offerings:', error)
+    offerings.value = []
   }
 }
 
 // Watchers
-watch([debouncedSearch, selectedService, currentPage], () => {
+watch([debouncedSearch, selectedOffering, currentPage], () => {
   fetchFaqs()
 })
 
 // Lifecycle
 onMounted(() => {
-  fetchServices()
+  fetchOfferings()
   fetchFaqs()
 })
 </script>

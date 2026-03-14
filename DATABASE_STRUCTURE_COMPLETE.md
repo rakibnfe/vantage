@@ -1,6 +1,6 @@
 # 🗄️ VANTAGE - Complete Database Structure
 
-**Project:** Vantage Portfolio & Service Management System  
+**Project:** Vantage Portfolio & Offering Management System  
 **Database Type:** MySQL/MariaDB with Laravel Eloquent ORM  
 **Last Updated:** March 11, 2026
 
@@ -153,7 +153,7 @@ Portfolio projects and work showcase
 
 **Relationships:**
 - `belongsTo` User
-- `belongsToMany` Services (via service_project)
+- `belongsToMany` offerings (via offering_project)
 - `morphMany` Tags
 - `hasMany` PageViews
 
@@ -161,18 +161,18 @@ Portfolio projects and work showcase
 
 ---
 
-### 6. **services**
-Service offerings and service-related details
+### 6. **offerings**
+Offering offerings and offering-related details
 
 | Column | Type | Nullable | Default | Description |
 |--------|------|----------|---------|-------------|
 | id | BIGINT | ❌ | - | Primary Key |
-| title | VARCHAR(255) | ❌ | - | Service title |
+| title | VARCHAR(255) | ❌ | - | Offering title |
 | slug | VARCHAR(255) | ❌ | - | URL-friendly slug (Unique) |
 | tagline | VARCHAR(255) | ❌ | - | Short tagline |
 | icon | VARCHAR(255) | ✅ | NULL | Icon name/path |
 | featured_image | VARCHAR(255) | ✅ | NULL | Featured image filename |
-| overview | TEXT | ❌ | - | Service overview |
+| overview | TEXT | ❌ | - | Offering overview |
 | description | TEXT | ✅ | NULL | Detailed description |
 | process | JSON | ✅ | NULL | Process steps (array) |
 | features | JSON | ✅ | NULL | Features list (array) |
@@ -194,12 +194,12 @@ Service offerings and service-related details
 | updated_at | TIMESTAMP | ❌ | - | Update timestamp |
 
 **Relationships:**
-- `belongsToMany` Projects (via service_project)
-- `hasMany` ServiceFeatures
-- `hasMany` ServiceProcessSteps
-- `hasMany` ServiceFAQs
-- `hasMany` ServiceTechnologies
-- `hasMany` ServicePricingModels
+- `belongsToMany` Projects (via offering_project)
+- `hasMany` OfferingFeatures
+- `hasMany` OfferingProcessSteps
+- `hasMany` OfferingFAQs
+- `hasMany` OfferingTechnologies
+- `hasMany` OfferingPricingModels
 
 **Status:** ✅ **DONE**
 
@@ -207,13 +207,13 @@ Service offerings and service-related details
 
 ## 🔗 Relationship/Detail Tables
 
-### 7. **service_features**
-Features of services (one-to-many detail)
+### 7. **offering_features**
+Features of offerings (one-to-many detail)
 
 | Column | Type | Nullable | Default | Description |
 |--------|------|----------|---------|-------------|
 | id | BIGINT | ❌ | - | Primary Key |
-| service_id | BIGINT | ❌ | - | Foreign Key → services.id |
+| offering_id | BIGINT | ❌ | - | Foreign Key → offerings.id |
 | title | VARCHAR(255) | ❌ | - | Feature title |
 | description | TEXT | ✅ | NULL | Feature description |
 | icon | VARCHAR(255) | ✅ | NULL | Icon name/path |
@@ -225,13 +225,13 @@ Features of services (one-to-many detail)
 
 ---
 
-### 8. **service_process_steps**
-Process steps for delivering a service
+### 8. **offering_process_steps**
+Process steps for delivering a offering
 
 | Column | Type | Nullable | Default | Description |
 |--------|------|----------|---------|-------------|
 | id | BIGINT | ❌ | - | Primary Key |
-| service_id | BIGINT | ❌ | - | Foreign Key → services.id |
+| offering_id | BIGINT | ❌ | - | Foreign Key → offerings.id |
 | title | VARCHAR(255) | ❌ | - | Step title |
 | description | TEXT | ✅ | NULL | Step description |
 | icon | VARCHAR(255) | ✅ | NULL | Icon name/path |
@@ -243,13 +243,13 @@ Process steps for delivering a service
 
 ---
 
-### 9. **service_faqs**
-Frequently Asked Questions for services
+### 9. **offering_faqs**
+Frequently Asked Questions for offerings
 
 | Column | Type | Nullable | Default | Description |
 |--------|------|----------|---------|-------------|
 | id | BIGINT | ❌ | - | Primary Key |
-| service_id | BIGINT | ❌ | - | Foreign Key → services.id |
+| offering_id | BIGINT | ❌ | - | Foreign Key → offerings.id |
 | question | VARCHAR(500) | ❌ | - | FAQ question |
 | answer | TEXT | ❌ | - | FAQ answer |
 | order | INT | ❌ | 0 | Display order |
@@ -260,13 +260,13 @@ Frequently Asked Questions for services
 
 ---
 
-### 10. **service_technologies**
-Technologies used in services
+### 10. **offering_technologies**
+Technologies used in offerings
 
 | Column | Type | Nullable | Default | Description |
 |--------|------|----------|---------|-------------|
 | id | BIGINT | ❌ | - | Primary Key |
-| service_id | BIGINT | ❌ | - | Foreign Key → services.id |
+| offering_id | BIGINT | ❌ | - | Foreign Key → offerings.id |
 | name | VARCHAR(255) | ❌ | - | Technology name |
 | icon | VARCHAR(255) | ✅ | NULL | Technology icon |
 | order | INT | ❌ | 0 | Display order |
@@ -277,13 +277,13 @@ Technologies used in services
 
 ---
 
-### 11. **service_pricing_models**
-Pricing tiers/models for services
+### 11. **offering_pricing_models**
+Pricing tiers/models for offerings
 
 | Column | Type | Nullable | Default | Description |
 |--------|------|----------|---------|-------------|
 | id | BIGINT | ❌ | - | Primary Key |
-| service_id | BIGINT | ❌ | - | Foreign Key → services.id |
+| offering_id | BIGINT | ❌ | - | Foreign Key → offerings.id |
 | name | VARCHAR(100) | ❌ | - | Pricing tier name (e.g., 'Basic', 'Pro') |
 | description | TEXT | ✅ | NULL | Tier description |
 | price | DECIMAL(10,2) | ✅ | NULL | Price in base currency |
@@ -310,7 +310,7 @@ Client testimonials and reviews
 | content | TEXT | ❌ | - | Testimonial text |
 | rating | INT | ❌ | 5 | Rating 1-5 |
 | client_image | VARCHAR(255) | ✅ | NULL | Client profile image |
-| service_id | BIGINT | ✅ | NULL | Foreign Key → services.id |
+| offering_id | BIGINT | ✅ | NULL | Foreign Key → offerings.id |
 | project_id | BIGINT | ✅ | NULL | Foreign Key → projects.id |
 | is_featured | BOOLEAN | ❌ | false | Feature on homepage |
 | order | INT | ❌ | 0 | Display order |
@@ -318,7 +318,7 @@ Client testimonials and reviews
 | updated_at | TIMESTAMP | ❌ | - | Update timestamp |
 
 **Relationships:**
-- `belongsTo` Service (optional)
+- `belongsTo` Offering (optional)
 - `belongsTo` Project (optional)
 
 **Status:** ✅ **DONE**
@@ -398,7 +398,7 @@ Bookings, appointments, and schedules
 | guest_email | VARCHAR(255) | ❌ | - | Guest email |
 | guest_phone | VARCHAR(20) | ✅ | NULL | Guest phone |
 | type | ENUM | ❌ | 'appointment' | Type: 'appointment', 'consultation', 'meeting' |
-| service_id | BIGINT | ✅ | NULL | Foreign Key → services.id |
+| offering_id | BIGINT | ✅ | NULL | Foreign Key → offerings.id |
 | title | VARCHAR(255) | ❌ | - | Booking title |
 | description | TEXT | ✅ | NULL | Booking description |
 | start_time | TIMESTAMP | ❌ | - | Start date/time |
@@ -409,7 +409,7 @@ Bookings, appointments, and schedules
 | updated_at | TIMESTAMP | ❌ | - | Update timestamp |
 
 **Relationships:**
-- `belongsTo` Service (optional)
+- `belongsTo` Offering (optional)
 
 **Status:** ✅ **DONE**
 
@@ -445,7 +445,7 @@ Track page views for analytics
 |--------|------|----------|---------|-------------|
 | id | BIGINT | ❌ | - | Primary Key |
 | visitor_id | BIGINT | ✅ | NULL | Foreign Key → visitors.id |
-| viewable_type | VARCHAR(255) | ✅ | NULL | Polymorphic type (Article, Project, Service) |
+| viewable_type | VARCHAR(255) | ✅ | NULL | Polymorphic type (Article, Project, Offering) |
 | viewable_id | BIGINT | ✅ | NULL | Polymorphic ID |
 | page_url | VARCHAR(500) | ❌ | - | Page URL |
 | page_title | VARCHAR(255) | ✅ | NULL | Page title |
@@ -503,13 +503,13 @@ Pivot table: Roles to Permissions
 
 ## 📁 Many-to-Many & Polymorphic Tables
 
-### 22. **service_project**
-Pivot table: Services to Projects
+### 22. **offering_project**
+Pivot table: offerings to Projects
 
 | Column | Type | Nullable | Default | Description |
 |--------|------|----------|---------|-------------|
 | id | BIGINT | ❌ | - | Primary Key |
-| service_id | BIGINT | ❌ | - | Foreign Key → services.id |
+| offering_id | BIGINT | ❌ | - | Foreign Key → offerings.id |
 | project_id | BIGINT | ❌ | - | Foreign Key → projects.id |
 
 **Status:** ✅ **DONE**
@@ -699,17 +699,17 @@ The database is fully set up. What remains is implementing the controller method
 
 ### Admin Controllers - Methods Needed
 
-1. **ServiceController** ⏳ (Routes defined, methods needed)
-   - `index()` - List all services
+1. **OfferingController** ⏳ (Routes defined, methods needed)
+   - `index()` - List all offerings
    - `create()` - Show creation form
-   - `store()` - Save new service
-   - `show()` - View single service
+   - `store()` - Save new offering
+   - `show()` - View single offering
    - `edit()` - Show edit form
-   - `update()` - Update service
-   - `destroy()` - Delete service
-   - `reorder()` - Reorder services
+   - `update()` - Update offering
+   - `destroy()` - Delete offering
+   - `reorder()` - Reorder offerings
    - `toggleStatus()` - Toggle published status
-   - `clone()` - Clone a service
+   - `clone()` - Clone a offering
 
 2. **ProjectController** ⏳ (Routes defined, methods needed)
    - `index()` - List all projects
@@ -806,19 +806,19 @@ When running `php artisan migrate`, the migrations execute in this order:
 4. **visitors** - Visitor tracking
 5. **tags** - Content tags
 6. **projects** - Portfolio projects
-7. **services** - Services offered
+7. **offerings** - offerings offered
 8. **articles** - Blog/articles
 9. **tools** - Tools tracking
 10. **contacts** - Contact inquiries
 11. **schedules** - Appointments
 12. **testimonials** - Client testimonials
-13. **service_features** - Service details
-14. **service_process_steps** - Process details
-15. **service_faqs** - FAQ details
-16. **service_technologies** - Tech stack
-17. **service_pricing_models** - Pricing tiers
+13. **offering_features** - Offering details
+14. **offering_process_steps** - Process details
+15. **offering_faqs** - FAQ details
+16. **offering_technologies** - Tech stack
+17. **offering_pricing_models** - Pricing tiers
 18. **taggables** - Polymorphic tag relationships
-19. **service_project** - Service-project relationships
+19. **offering_project** - Offering-project relationships
 20. **page_views** - Page analytics
 21. **permissions** - RBAC permissions
 22. **roles** - RBAC roles
@@ -848,20 +848,20 @@ Article::tags()         // Morph Many-to-Many
 
 // Project
 Project::user()         // Belongs To
-Project::services()     // Many-to-Many
+Project::offerings()     // Many-to-Many
 Project::tags()         // Morph Many-to-Many
 Project::pageViews()    // One-to-Many
 
-// Service
-Service::features()     // One-to-Many
-Service::processSteps() // One-to-Many
-Service::faqs()         // One-to-Many
-Service::technologies() // One-to-Many
-Service::pricingModels()// One-to-Many
-Service::projects()     // Many-to-Many
+// Offering
+Offering::features()     // One-to-Many
+Offering::processSteps() // One-to-Many
+Offering::faqs()         // One-to-Many
+Offering::technologies() // One-to-Many
+Offering::pricingModels()// One-to-Many
+Offering::projects()     // Many-to-Many
 
 // Testimonial
-Testimonial::service()  // Belongs To (optional)
+Testimonial::offering()  // Belongs To (optional)
 Testimonial::project()  // Belongs To (optional)
 
 // Tag

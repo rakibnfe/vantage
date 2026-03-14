@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             
             // Content that depends on core
             ToolSeeder::class,
-            ServiceSeeder::class,
+            OfferingSeeder::class,
             ProjectSeeder::class,
             ArticleSeeder::class,
 

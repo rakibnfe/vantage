@@ -41,7 +41,7 @@ return new class extends Migration
             
             // Relations
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('service_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('offering_id')->nullable()->constrained()->nullOnDelete();
             
             $table->timestamps();
             $table->softDeletes();

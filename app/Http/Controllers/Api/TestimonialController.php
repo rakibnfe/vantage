@@ -17,7 +17,7 @@ class TestimonialController extends Controller
         $testimonials = Testimonial::query()
             ->published()
             ->when($request->has('featured'), function ($query) use ($request) {
-                return $query->where('is_featured', $request->boolean('featured'));
+                return $query->where('is_highlighted', $request->boolean('featured'));
             })
             ->when($request->has('min_rating'), function ($query) use ($request) {
                 return $query->where('rating', '>=', $request->min_rating);

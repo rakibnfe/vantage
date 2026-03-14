@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProcessStepResource;
-use App\Models\Service;
-use App\Models\ServiceProcessStep;
+use App\Models\Offering;
+use App\Models\OfferingProcessStep;
 use Illuminate\Http\Request;
 
 class ProcessController extends Controller
@@ -15,16 +15,16 @@ class ProcessController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ServiceProcessStep::with(['service' => function ($q) {
+        $query = OfferingProcessStep::with(['offering' => function ($q) {
                 $q->select('id', 'title', 'slug', 'icon');
             }])
-            ->whereHas('service', function ($q) {
+            ->whereHas('offering', function ($q) {
                 $q->where('is_published', true);
             });
 
-        // Filter by service
-        if ($request->has('service_id') && $request->service_id) {
-            $query->where('service_id', $request->service_id);
+        // Filter by offering
+        if ($request->has('offering_id') && $request->offering_id) {
+            $query->where('offering_id', $request->offering_id);
         }
 
         // Search in titles and descriptions
@@ -63,7 +63,7 @@ class ProcessController extends Controller
      */
     public function show($id)
     {
-        $step = ServiceProcessStep::with(['service' => function ($q) {
+        $step = OfferingProcessStep::with(['offering' => function ($q) {
                 $q->select('id', 'title', 'slug', 'icon');
             }])
             ->find($id);
@@ -83,22 +83,22 @@ class ProcessController extends Controller
     }
 
     /**
-     * Get process steps by service slug.
+     * Get process steps by offering slug.
      */
-    public function byService($serviceSlug)
+    public function byOffering($offeringSlug)
     {
-        $service = Service::where('slug', $serviceSlug)
+        $offering = Offering::where('slug', $offeringSlug)
             ->where('is_published', true)
             ->first();
 
-        if (!$service) {
+        if (!$offering) {
             return response()->json([
                 'success' => false,
-                'message' => 'Service not found'
+                'message' => 'Offering not found'
             ], 404);
         }
 
-        $steps = $service->processSteps()
+        $steps = $offering->processSteps()
             ->orderBy('order')
             ->get();
 
@@ -106,24 +106,24 @@ class ProcessController extends Controller
             'success' => true,
             'data' => ProcessStepResource::collection($steps),
             'meta' => [
-                'service' => [
-                    'id' => $service->id,
-                    'title' => $service->title,
-                    'slug' => $service->slug,
-                    'icon' => $service->icon
+                'offering' => [
+                    'id' => $offering->id,
+                    'title' => $offering->title,
+                    'slug' => $offering->slug,
+                    'icon' => $offering->icon
                 ],
                 'total' => $steps->count()
             ],
-            'message' => 'Service process steps retrieved successfully'
+            'message' => 'Offering process steps retrieved successfully'
         ]);
     }
 
     /**
-     * Get process steps grouped by service.
+     * Get process steps grouped by offering.
      */
     public function grouped()
     {
-        $services = Service::with(['processSteps' => function ($q) {
+        $offerings = Offering::with(['processSteps' => function ($q) {
                 $q->orderBy('order');
             }])
             ->where('is_published', true)
@@ -131,15 +131,15 @@ class ProcessController extends Controller
             ->orderBy('order')
             ->get();
 
-        $data = $services->map(function ($service) {
+        $data = $offerings->map(function ($offering) {
             return [
-                'service' => [
-                    'id' => $service->id,
-                    'title' => $service->title,
-                    'slug' => $service->slug,
-                    'icon' => $service->icon
+                'offering' => [
+                    'id' => $offering->id,
+                    'title' => $offering->title,
+                    'slug' => $offering->slug,
+                    'icon' => $offering->icon
                 ],
-                'steps' => ProcessStepResource::collection($service->processSteps)
+                'steps' => ProcessStepResource::collection($offering->processSteps)
             ];
         });
 
@@ -147,7 +147,7 @@ class ProcessController extends Controller
             'success' => true,
             'data' => $data,
             'meta' => [
-                'total_services' => $services->count()
+                'total_offerings' => $offerings->count()
             ],
             'message' => 'Grouped process steps retrieved successfully'
         ]);

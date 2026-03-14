@@ -291,10 +291,10 @@
                 Get in Touch
               </router-link>
               <router-link 
-                to="/services" 
+                to="/offerings" 
                 class="px-8 py-4 border border-white text-white rounded-xl font-semibold hover:bg-white/10 transition"
               >
-                View Services
+                View Offerings
               </router-link>
             </div>
           </div>

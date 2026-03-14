@@ -51,11 +51,11 @@ class ScheduleResource extends JsonResource
                     'email' => $this->user->email,
                 ];
             }),
-            'service' => $this->whenLoaded('service', function() {
+            'offering' => $this->whenLoaded('offering', function() {
                 return [
-                    'id' => $this->service->id,
-                    'title' => $this->service->title,
-                    'slug' => $this->service->slug,
+                    'id' => $this->offering->id,
+                    'title' => $this->offering->title,
+                    'slug' => $this->offering->slug,
                 ];
             }),
             'created_at' => $this->created_at?->toISOString(),

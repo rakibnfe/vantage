@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PricingModelResource;
-use App\Models\Service;
-use App\Models\ServicePricingModel;
+use App\Models\Offering;
+use App\Models\OfferingPricingModel;
 use Illuminate\Http\Request;
 
 class PricingController extends Controller
@@ -15,16 +15,16 @@ class PricingController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ServicePricingModel::with(['service' => function ($q) {
+        $query = OfferingPricingModel::with(['offering' => function ($q) {
                 $q->select('id', 'title', 'slug');
             }])
-            ->whereHas('service', function ($q) {
+            ->whereHas('offering', function ($q) {
                 $q->where('is_published', true);
             });
 
-        // Filter by service
-        if ($request->has('service_id') && $request->service_id) {
-            $query->where('service_id', $request->service_id);
+        // Filter by offering
+        if ($request->has('offering_id') && $request->offering_id) {
+            $query->where('offering_id', $request->offering_id);
         }
 
         // Filter by price range
@@ -73,7 +73,7 @@ class PricingController extends Controller
      */
     public function show($id)
     {
-        $pricing = ServicePricingModel::with(['service' => function ($q) {
+        $pricing = OfferingPricingModel::with(['offering' => function ($q) {
                 $q->select('id', 'title', 'slug');
             }])
             ->find($id);
@@ -93,22 +93,22 @@ class PricingController extends Controller
     }
 
     /**
-     * Get pricing models by service slug.
+     * Get pricing models by offering slug.
      */
-    public function byService($serviceSlug)
+    public function byOffering($offeringSlug)
     {
-        $service = Service::where('slug', $serviceSlug)
+        $offering = Offering::where('slug', $offeringSlug)
             ->where('is_published', true)
             ->first();
 
-        if (!$service) {
+        if (!$offering) {
             return response()->json([
                 'success' => false,
-                'message' => 'Service not found'
+                'message' => 'Offering not found'
             ], 404);
         }
 
-        $pricing = $service->pricingModels()
+        $pricing = $offering->pricingModels()
             ->orderBy('order')
             ->get();
 
@@ -116,23 +116,23 @@ class PricingController extends Controller
             'success' => true,
             'data' => PricingModelResource::collection($pricing),
             'meta' => [
-                'service' => [
-                    'id' => $service->id,
-                    'title' => $service->title,
-                    'slug' => $service->slug
+                'offering' => [
+                    'id' => $offering->id,
+                    'title' => $offering->title,
+                    'slug' => $offering->slug
                 ],
                 'total' => $pricing->count()
             ],
-            'message' => 'Service pricing models retrieved successfully'
+            'message' => 'Offering pricing models retrieved successfully'
         ]);
     }
 
     /**
-     * Get pricing comparison across all services.
+     * Get pricing comparison across all offerings.
      */
     public function comparison()
     {
-        $services = Service::with(['pricingModels' => function ($q) {
+        $offerings = Offering::with(['pricingModels' => function ($q) {
                 $q->orderBy('order');
             }])
             ->where('is_published', true)
@@ -140,15 +140,15 @@ class PricingController extends Controller
             ->orderBy('order')
             ->get();
 
-        $data = $services->map(function ($service) {
+        $data = $offerings->map(function ($offering) {
             return [
-                'service' => [
-                    'id' => $service->id,
-                    'title' => $service->title,
-                    'slug' => $service->slug,
-                    'tagline' => $service->tagline,
+                'offering' => [
+                    'id' => $offering->id,
+                    'title' => $offering->title,
+                    'slug' => $offering->slug,
+                    'tagline' => $offering->tagline,
                 ],
-                'pricing_models' => PricingModelResource::collection($service->pricingModels)
+                'pricing_models' => PricingModelResource::collection($offering->pricingModels)
             ];
         });
 
@@ -156,9 +156,9 @@ class PricingController extends Controller
             'success' => true,
             'data' => $data,
             'meta' => [
-                'total_services' => $services->count(),
-                'total_models' => $services->sum(function ($service) {
-                    return $service->pricingModels->count();
+                'total_offerings' => $offerings->count(),
+                'total_models' => $offerings->sum(function ($offering) {
+                    return $offering->pricingModels->count();
                 })
             ],
             'message' => 'Pricing comparison retrieved successfully'
@@ -170,7 +170,7 @@ class PricingController extends Controller
      */
     public function summary()
     {
-        $pricingModels = ServicePricingModel::whereHas('service', function ($q) {
+        $pricingModels = OfferingPricingModel::whereHas('offering', function ($q) {
             $q->where('is_published', true);
         })->get();
 
@@ -181,7 +181,7 @@ class PricingController extends Controller
             'max_price' => $prices->max(),
             'avg_price' => round($prices->avg(), 2),
             'total_models' => $pricingModels->count(),
-            'services_with_pricing' => $pricingModels->groupBy('service_id')->count()
+            'offerings_with_pricing' => $pricingModels->groupBy('offering_id')->count()
         ];
 
         return response()->json([

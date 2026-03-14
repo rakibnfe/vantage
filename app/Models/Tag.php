@@ -27,14 +27,14 @@ class Tag extends Model
         return $this->morphedByMany(Article::class, 'taggable');
     }
 
-    public function services(): MorphToMany
+    public function offerings(): MorphToMany
     {
-        return $this->morphedByMany(Service::class, 'taggable');
+        return $this->morphedByMany(Offering::class, 'taggable');
     }
 
     public function scopePopular($query, $limit = 10)
     {
-        return $query->withCount('projects', 'articles', 'services')
+        return $query->withCount('projects', 'articles', 'offerings')
                      ->orderBy('projects_count', 'desc')
                      ->limit($limit);
     }

@@ -12,7 +12,7 @@
 - **Status:** All 100+ routes properly defined
 - **Routes Include:**
   - Dashboard (3 routes)
-  - Services CRUD (10 routes)
+  - Offerings CRUD (10 routes)
   - Projects CRUD (10 routes)
   - Articles CRUD (11 routes)
   - Bookings CRUD (13 routes)
@@ -208,7 +208,7 @@ The project is now set up for AI-assisted development:
 ## 🤖 Recommended Next Steps
 
 ### Phase 1: Implement Controllers (1-2 weeks)
-1. ServiceController (10 methods)
+1. OfferingController (10 methods)
 2. ProjectController (10 methods)
 3. ArticleController (11 methods)
 4. BookingController (12 methods)

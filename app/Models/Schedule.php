@@ -33,7 +33,7 @@ class Schedule extends Model
         'color',
         'location',
         'user_id',
-        'service_id',
+        'offering_id',
     ];
 
     protected $casts = [
@@ -59,7 +59,7 @@ class Schedule extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function service()
+    public function offering()
     {
         return $this->belongsTo(Service::class);
     }

@@ -24,11 +24,11 @@ class TagResource extends JsonResource
             'counts' => [
                 'projects' => $this->when(isset($this->projects_count), $this->projects_count, 0),
                 'articles' => $this->when(isset($this->articles_count), $this->articles_count, 0),
-                'services' => $this->when(isset($this->services_count), $this->services_count, 0),
+                'offerings' => $this->when(isset($this->offerings_count), $this->offerings_count, 0),
             ],
             'projects' => $this->whenLoaded('projects', fn() => ProjectResource::collection($this->projects)),
             'articles' => $this->whenLoaded('articles', fn() => ArticleResource::collection($this->articles)),
-            'services' => $this->whenLoaded('services', fn() => ServiceResource::collection($this->services)),
+            'offerings' => $this->whenLoaded('offerings', fn() => OfferingResource::collection($this->offerings)),
         ];
     }
 }

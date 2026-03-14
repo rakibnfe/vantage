@@ -15,10 +15,10 @@ class ProjectController extends Controller
         $perPage = $request->get('per_page', 12);
         
         $projects = Project::query()
-            ->with(['tags', 'services'])
+            ->with(['tags', 'offerings'])
             ->published()
             ->when($request->has('featured'), function ($query) use ($request) {
-                return $query->where('is_featured', $request->boolean('featured'));
+                return $query->where('is_highlighted', $request->boolean('featured'));
             })
             ->when($request->has('status'), function ($query) use ($request) {
                 return $query->where('status', $request->status);
@@ -28,7 +28,7 @@ class ProjectController extends Controller
                     $q->where('slug', $request->tag);
                 });
             })
-            ->orderBy('is_featured', 'desc')
+            ->orderBy('is_highlighted', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
         
@@ -39,7 +39,7 @@ class ProjectController extends Controller
     {
         $project = Project::where('slug', $slug)
             ->where('is_published', true)
-            ->with(['tags', 'services', 'user'])
+            ->with(['tags', 'offerings', 'user'])
             ->first();
         
         if (!$project) {
@@ -57,19 +57,19 @@ class ProjectController extends Controller
         $limit = $request->get('limit', 4);
         
         $tagIds = $project->tags->pluck('id');
-        $serviceIds = $project->services->pluck('id');
+        $offeringIds = $project->offerings->pluck('id');
         
         $related = Project::published()
             ->where('id', '!=', $project->id)
-            ->where(function ($query) use ($tagIds, $serviceIds) {
+            ->where(function ($query) use ($tagIds, $offeringIds) {
                 $query->whereHas('tags', function ($q) use ($tagIds) {
                     $q->whereIn('tags.id', $tagIds);
-                })->orWhereHas('services', function ($q) use ($serviceIds) {
-                    $q->whereIn('services.id', $serviceIds);
+                })->orWhereHas('offerings', function ($q) use ($offeringIds) {
+                    $q->whereIn('offerings.id', $offeringIds);
                 });
             })
-            ->with(['tags', 'services'])
-            ->orderBy('is_featured', 'desc')
+            ->with(['tags', 'offerings'])
+            ->orderBy('is_highlighted', 'desc')
             ->orderBy('created_at', 'desc')
             ->limit($limit)
             ->get();

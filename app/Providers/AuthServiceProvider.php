@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Service;
+use App\Models\Offering;
 use App\Models\Project;
 use App\Models\Article;
 use App\Models\Schedule;
@@ -10,7 +10,7 @@ use App\Models\Contact;
 use App\Models\Testimonial;
 use App\Models\Tool;
 use App\Models\User;
-use App\Policies\ServicePolicy;
+use App\Policies\OfferingPolicy;
 use App\Policies\ProjectPolicy;
 use App\Policies\ArticlePolicy;
 use App\Policies\BookingPolicy;
@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        Service::class => ServicePolicy::class,
+        Offering::class => OfferingPolicy::class,
         Project::class => ProjectPolicy::class,
         Article::class => ArticlePolicy::class,
         Schedule::class => BookingPolicy::class,

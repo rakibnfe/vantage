@@ -14,7 +14,7 @@ class TagController extends Controller
     {
         $perPage = $request->get('per_page', 20);
         
-        $tags = Tag::withCount(['projects', 'articles', 'services'])
+        $tags = Tag::withCount(['projects', 'articles', 'offerings'])
             ->orderBy('name')
             ->paginate($perPage);
         
@@ -24,7 +24,7 @@ class TagController extends Controller
     public function show($slug)
     {
         $tag = Tag::where('slug', $slug)
-            ->withCount(['projects', 'articles', 'services'])
+            ->withCount(['projects', 'articles', 'offerings'])
             ->first();
         
         if (!$tag) {

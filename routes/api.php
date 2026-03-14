@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\OfferingController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\TagController;
@@ -22,14 +22,14 @@ Route::get('/ping', function () {
 });
 
 Route::prefix('v1')->group(function () {
-    // Services API
-    Route::apiResource('services', ServiceController::class)->only(['index', 'show']);
-    Route::prefix('services')->group(function () {
-        Route::get('{service}/projects', [ServiceController::class, 'projects']);
-        Route::get('{service}/technologies', [ServiceController::class, 'technologies']);
-        Route::get('{service}/faqs', [ServiceController::class, 'faqs']);
-        Route::get('{service}/process-steps', [ServiceController::class, 'processSteps']);
-        Route::get('{service}/pricing', [ServiceController::class, 'pricing']);
+    // Offerings API
+    Route::apiResource('offerings', OfferingController::class)->only(['index', 'show']);
+    Route::prefix('offerings')->group(function () {
+        Route::get('{offering}/projects', [OfferingController::class, 'projects']);
+        Route::get('{offering}/technologies', [OfferingController::class, 'technologies']);
+        Route::get('{offering}/faqs', [OfferingController::class, 'faqs']);
+        Route::get('{offering}/process-steps', [OfferingController::class, 'processSteps']);
+        Route::get('{offering}/pricing', [OfferingController::class, 'pricing']);
     });
 
     // Projects API
@@ -57,7 +57,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('faqs')->name('faqs.')->group(function () {
         Route::get('/', [FaqController::class, 'index'])->name('index');
         Route::get('/featured', [FaqController::class, 'featured'])->name('featured');
-        Route::get('/service/{serviceSlug}', [FaqController::class, 'byService'])->name('by-service');
+        Route::get('/offering/{offeringSlug}', [FaqController::class, 'byOffering'])->name('by-offering');
         Route::get('/{id}', [FaqController::class, 'show'])->name('show');
     });
 
@@ -65,7 +65,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('process-steps')->name('process.')->group(function () {
         Route::get('/', [ProcessController::class, 'index'])->name('index');
         Route::get('/grouped', [ProcessController::class, 'grouped'])->name('grouped');
-        Route::get('/service/{serviceSlug}', [ProcessController::class, 'byService'])->name('by-service');
+        Route::get('/offering/{offeringSlug}', [ProcessController::class, 'byOffering'])->name('by-offering');
         Route::get('/{id}', [ProcessController::class, 'show'])->name('show');
     });
 
@@ -74,7 +74,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/', [PricingController::class, 'index'])->name('index');
         Route::get('/comparison', [PricingController::class, 'comparison'])->name('comparison');
         Route::get('/summary', [PricingController::class, 'summary'])->name('summary');
-        Route::get('/service/{serviceSlug}', [PricingController::class, 'byService'])->name('by-service');
+        Route::get('/offering/{offeringSlug}', [PricingController::class, 'byOffering'])->name('by-offering');
         Route::get('/{id}', [PricingController::class, 'show'])->name('show');
     });
 

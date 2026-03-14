@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\OfferingController as AdminOfferingController;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
@@ -23,11 +23,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('stats', [DashboardController::class, 'stats'])->name('stats');
         Route::get('recent-activities', [DashboardController::class, 'recentActivities'])->name('activities');
         
-        // Services Management
-        Route::resource('services', AdminServiceController::class);
-        Route::post('services/reorder', [AdminServiceController::class, 'reorder'])->name('services.reorder');
-        Route::post('services/{service}/toggle-status', [AdminServiceController::class, 'toggleStatus'])->name('services.toggle');
-        Route::post('services/{service}/clone', [AdminServiceController::class, 'clone'])->name('services.clone');
+        // Offerings Management
+        Route::resource('offerings', AdminOfferingController::class);
+        Route::post('offerings/reorder', [AdminOfferingController::class, 'reorder'])->name('offerings.reorder');
+        Route::post('offerings/{offering}/toggle-status', [AdminOfferingController::class, 'toggleStatus'])->name('offerings.toggle');
+        Route::post('offerings/{offering}/clone', [AdminOfferingController::class, 'clone'])->name('offerings.clone');
         
         // Projects Management
         Route::resource('projects', AdminProjectController::class);

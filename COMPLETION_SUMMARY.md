@@ -344,7 +344,7 @@ VANTAGE Project Root
 ├── app/Http/Controllers/
 │   ├── Admin/                           ⏳ ~110 methods needed
 │   │   ├── DashboardController.php      ✅ Complete
-│   │   ├── ServiceController.php        ⏳ Structure only
+│   │   ├── OfferingController.php        ⏳ Structure only
 │   │   ├── ProjectController.php        ⏳ Structure only
 │   │   ├── ArticleController.php        ⏳ Structure only
 │   │   └── ...
@@ -356,7 +356,7 @@ VANTAGE Project Root
 │   ├── auth/                            ✅ 5 templates done
 │   └── admin/                           ⏳ ~35 templates needed
 │       ├── dashboard/index.blade.php    ✅ Complete
-│       ├── services/                    ⏳ To do
+│       ├── offerings/                    ⏳ To do
 │       └── ...
 │
 └── database/migrations/                 ✅ 31 migrations done

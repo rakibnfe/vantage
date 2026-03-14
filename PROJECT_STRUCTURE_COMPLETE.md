@@ -1,6 +1,6 @@
 # 📁 VANTAGE - Complete Project Structure
 
-**Project:** Vantage Portfolio & Service Management System  
+**Project:** Vantage Portfolio & Offering Management System  
 **Framework:** Laravel 11 + Vue 3 + Tailwind CSS  
 **Last Updated:** March 11, 2026
 
@@ -15,7 +15,7 @@
 │   │   ├── Controllers/
 │   │   │   ├── Admin/
 │   │   │   │   ├── DashboardController.php          ✅ Done
-│   │   │   │   ├── ServiceController.php            ⏳ Structure only (methods needed)
+│   │   │   │   ├── OfferingController.php            ⏳ Structure only (methods needed)
 │   │   │   │   ├── ProjectController.php            ⏳ Structure only (methods needed)
 │   │   │   │   ├── ArticleController.php            ⏳ Structure only (methods needed)
 │   │   │   │   ├── BookingController.php            ⏳ Structure only (methods needed)
@@ -53,23 +53,23 @@
 │   │   ├── PageView.php                             ✅ Done
 │   │   ├── Project.php                              ✅ Done
 │   │   ├── Schedule.php                             ✅ Done
-│   │   ├── Service.php                              ✅ Done
-│   │   ├── ServiceFAQ.php                           ✅ Done
-│   │   ├── ServiceFeature.php                       ✅ Done
-│   │   ├── ServicePricingModel.php                  ✅ Done
-│   │   ├── ServiceProcessStep.php                   ✅ Done
-│   │   ├── ServiceTechnology.php                    ✅ Done
+│   │   ├── Offering.php                              ✅ Done
+│   │   ├── OfferingFAQ.php                           ✅ Done
+│   │   ├── OfferingFeature.php                       ✅ Done
+│   │   ├── OfferingPricingModel.php                  ✅ Done
+│   │   ├── OfferingProcessStep.php                   ✅ Done
+│   │   ├── OfferingTechnology.php                    ✅ Done
 │   │   ├── Tag.php                                  ✅ Done
 │   │   ├── Testimonial.php                          ✅ Done
 │   │   ├── Tool.php                                 ✅ Done
 │   │   ├── ToolUsage.php                            ✅ Done
 │   │   └── Visitor.php                              ✅ Done
 │   ├── Providers/
-│   │   ├── AppServiceProvider.php                   ✅ Done
-│   │   ├── AuthServiceProvider.php
-│   │   ├── BroadcastServiceProvider.php
-│   │   ├── EventServiceProvider.php
-│   │   ├── RouteServiceProvider.php
+│   │   ├── AppOfferingProvider.php                   ✅ Done
+│   │   ├── AuthOfferingProvider.php
+│   │   ├── BroadcastOfferingProvider.php
+│   │   ├── EventOfferingProvider.php
+│   │   ├── RouteOfferingProvider.php
 │   │   └── [Other providers]
 │   ├── Events/
 │   │   └── [Event classes - future]
@@ -91,7 +91,7 @@
 │   ├── mail.php                                     ✅ Done
 │   ├── queue.php                                    ✅ Done
 │   ├── session.php                                  ✅ Done
-│   ├── services.php                                 ✅ Done
+│   ├── offerings.php                                 ✅ Done
 │   └── [Other config files]
 ├── database/
 │   ├── migrations/
@@ -100,7 +100,7 @@
 │   │   ├── 2024_xx_xx_create_categories_table.php   ✅ Done
 │   │   ├── 2024_xx_xx_create_contacts_table.php     ✅ Done
 │   │   ├── 2024_xx_xx_create_projects_table.php     ✅ Done
-│   │   ├── 2024_xx_xx_create_services_table.php     ✅ Done
+│   │   ├── 2024_xx_xx_create_offerings_table.php     ✅ Done
 │   │   ├── 2024_xx_xx_create_schedules_table.php    ✅ Done
 │   │   ├── 2024_xx_xx_create_testimonials_table.php ✅ Done
 │   │   ├── 2024_xx_xx_create_tools_table.php        ✅ Done
@@ -157,7 +157,7 @@
 │       │   │   └── app.blade.php                    ✅ Done
 │       │   ├── dashboard/
 │       │   │   └── index.blade.php                  ✅ Done
-│       │   ├── services/
+│       │   ├── offerings/
 │       │   │   ├── index.blade.php                  ⏳ Structure only
 │       │   │   ├── create.blade.php                 ⏳ Structure only
 │       │   │   ├── edit.blade.php                   ⏳ Structure only
@@ -258,16 +258,16 @@
 - `GET /admin/dashboard/stats` → `DashboardController@stats`
 - `GET /admin/dashboard/recent-activities` → `DashboardController@recentActivities`
 
-### Services Management
-- `GET /admin/services` → `ServiceController@index`
-- `POST /admin/services` → `ServiceController@store`
-- `GET /admin/services/{id}` → `ServiceController@show`
-- `GET /admin/services/{id}/edit` → `ServiceController@edit`
-- `PUT /admin/services/{id}` → `ServiceController@update`
-- `DELETE /admin/services/{id}` → `ServiceController@destroy`
-- `POST /admin/services/reorder` → `ServiceController@reorder`
-- `POST /admin/services/{id}/toggle-status` → `ServiceController@toggleStatus`
-- `POST /admin/services/{id}/clone` → `ServiceController@clone`
+### Offerings Management
+- `GET /admin/offerings` → `OfferingController@index`
+- `POST /admin/offerings` → `OfferingController@store`
+- `GET /admin/offerings/{id}` → `OfferingController@show`
+- `GET /admin/offerings/{id}/edit` → `OfferingController@edit`
+- `PUT /admin/offerings/{id}` → `OfferingController@update`
+- `DELETE /admin/offerings/{id}` → `OfferingController@destroy`
+- `POST /admin/offerings/reorder` → `OfferingController@reorder`
+- `POST /admin/offerings/{id}/toggle-status` → `OfferingController@toggleStatus`
+- `POST /admin/offerings/{id}/clone` → `OfferingController@clone`
 
 ### Projects Management
 - `GET /admin/projects` → `ProjectController@index`
@@ -371,7 +371,7 @@
 
 ### Models & Database
 - ✅ User authentication & roles
-- ✅ Service management with features, FAQs, pricing, process steps, technologies
+- ✅ Offering management with features, FAQs, pricing, process steps, technologies
 - ✅ Project management
 - ✅ Article management with categories & tags
 - ✅ Contact/Inquiry management

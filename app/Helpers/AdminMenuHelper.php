@@ -19,12 +19,12 @@ class AdminMenuHelper
                 'type' => 'section',
                 'label' => 'Content'
             ],
-            'services' => [
-                'route' => 'dashboard.services.index',
-                'label' => 'Services',
+            'offerings' => [
+                'route' => 'dashboard.offerings.index',
+                'label' => 'Offerings',
                 'icon' => 'briefcase',
-                'pattern' => 'dashboard.services.*',
-                'pending' => \App\Models\Service::where('is_published', false)->count()
+                'pattern' => 'dashboard.offerings.*',
+                'pending' => \App\Models\Offering::where('is_published', false)->count()
             ],
             'projects' => [
                 'route' => 'dashboard.projects.index',

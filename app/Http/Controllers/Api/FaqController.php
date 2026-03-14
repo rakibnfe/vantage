@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FAQResource;
-use App\Models\Service;
-use App\Models\ServiceFAQ;
+use App\Models\Offering;
+use App\Models\OfferingFAQ;
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
@@ -15,16 +15,16 @@ class FaqController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ServiceFAQ::with(['service' => function ($q) {
+        $query = OfferingFAQ::with(['offering' => function ($q) {
                 $q->select('id', 'title', 'slug');
             }])
-            ->whereHas('service', function ($q) {
+            ->whereHas('offering', function ($q) {
                 $q->where('is_published', true);
             });
 
-        // Filter by service
-        if ($request->has('service_id') && $request->service_id) {
-            $query->where('service_id', $request->service_id);
+        // Filter by offering
+        if ($request->has('offering_id') && $request->offering_id) {
+            $query->where('offering_id', $request->offering_id);
         }
 
         // Search in questions and answers
@@ -63,7 +63,7 @@ class FaqController extends Controller
      */
     public function show($id)
     {
-        $faq = ServiceFAQ::with(['service' => function ($q) {
+        $faq = OfferingFAQ::with(['offering' => function ($q) {
                 $q->select('id', 'title', 'slug');
             }])
             ->find($id);
@@ -83,22 +83,22 @@ class FaqController extends Controller
     }
 
     /**
-     * Get FAQs by service slug.
+     * Get FAQs by offering slug.
      */
-    public function byService($serviceSlug)
+    public function byOffering($offeringSlug)
     {
-        $service = Service::where('slug', $serviceSlug)
+        $offering = Offering::where('slug', $offeringSlug)
             ->where('is_published', true)
             ->first();
 
-        if (!$service) {
+        if (!$offering) {
             return response()->json([
                 'success' => false,
-                'message' => 'Service not found'
+                'message' => 'Offering not found'
             ], 404);
         }
 
-        $faqs = $service->faqs()
+        $faqs = $offering->faqs()
             ->orderBy('order')
             ->get();
 
@@ -106,14 +106,14 @@ class FaqController extends Controller
             'success' => true,
             'data' => FAQResource::collection($faqs),
             'meta' => [
-                'service' => [
-                    'id' => $service->id,
-                    'title' => $service->title,
-                    'slug' => $service->slug
+                'offering' => [
+                    'id' => $offering->id,
+                    'title' => $offering->title,
+                    'slug' => $offering->slug
                 ],
                 'total' => $faqs->count()
             ],
-            'message' => 'Service FAQs retrieved successfully'
+            'message' => 'Offering FAQs retrieved successfully'
         ]);
     }
 
@@ -124,10 +124,10 @@ class FaqController extends Controller
     {
         $limit = $request->get('limit', 6);
 
-        $faqs = ServiceFAQ::with(['service' => function ($q) {
+        $faqs = OfferingFAQ::with(['offering' => function ($q) {
                 $q->select('id', 'title', 'slug');
             }])
-            ->whereHas('service', function ($q) {
+            ->whereHas('offering', function ($q) {
                 $q->where('is_published', true);
             })
             ->orderBy('order')

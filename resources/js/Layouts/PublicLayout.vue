@@ -74,7 +74,7 @@
             <h4 class="font-semibold text-gray-900 dark:text-white mb-4">Quick Links</h4>
             <ul class="space-y-2">
               <li><router-link to="/work" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 text-sm">Work</router-link></li>
-              <li><router-link to="/services" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 text-sm">Services</router-link></li>
+              <li><router-link to="/offerings" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 text-sm">Offerings</router-link></li>
               <li><router-link to="/articles" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 text-sm">Articles</router-link></li>
               <li><router-link to="/about" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 text-sm">About</router-link></li>
             </ul>
@@ -120,7 +120,7 @@ const theme = useThemeStore()
 
 const navItems = [
   { name: 'Work', path: '/work' },
-  { name: 'Services', path: '/services' },
+  { name: 'Offerings', path: '/offerings' },
   { name: 'Articles', path: '/articles' },
   { name: 'Tools', path: '/tools' },
   { name: 'About', path: '/about' }
