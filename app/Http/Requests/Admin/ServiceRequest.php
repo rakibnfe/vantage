@@ -59,6 +59,9 @@ class ServiceRequest extends FormRequest
             
             'project_ids' => ['nullable', 'array'],
             'project_ids.*' => ['exists:projects,id'],
+            
+            // Tab tracking (not stored, just for redirect)
+            'active_tab' => ['nullable', 'string', 'max:50'],
         ];
     }
 }

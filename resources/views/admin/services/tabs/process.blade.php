@@ -1,6 +1,17 @@
 @props(['service' => null])
 
-<div x-data="processManager({{ json_encode(old('process_steps', $service->processSteps ?? [])) }})">
+@php
+    // Get process steps data - prefer old input if available (after validation error), otherwise use service relationship
+    $processData = old('process_steps');
+    if (empty($processData) && $service && $service->processSteps) {
+        $processData = $service->processSteps->toArray();
+    }
+    if (empty($processData)) {
+        $processData = [];
+    }
+@endphp
+
+<div x-data="processManager({{ json_encode($processData) }})">
     <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Process Steps</h3>
         <button type="button" 

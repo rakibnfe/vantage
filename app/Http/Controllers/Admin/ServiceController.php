@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\ServiceReorderRequest;
 use App\Models\Service;
 use App\Services\Admin\ServiceService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class ServiceController extends BaseController
@@ -33,15 +34,12 @@ class ServiceController extends BaseController
         return view('admin.services.create', $data);
     }
 
-    public function store(ServiceRequest $request): JsonResponse
+    public function store(ServiceRequest $request): RedirectResponse
     {
         $service = $this->service->create($request);
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Service created successfully.',
-            'redirect' => route('dashboard.services.edit', $service)
-        ]);
+        return redirect()->route('dashboard.services.index')
+            ->with('success', 'Service created successfully.');
     }
 
     public function show(Service $service): View
@@ -61,29 +59,27 @@ class ServiceController extends BaseController
     public function edit(Service $service): View
     {
         $data = $this->service->getFormData($service);
+        $data['activeTab'] = request()->query('tab', 'basic');
         return view('admin.services.edit', $data);
     }
 
-    public function update(ServiceRequest $request, Service $service): JsonResponse
+    public function update(ServiceRequest $request, Service $service): RedirectResponse
     {
         $this->service->update($service, $request);
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Service updated successfully.',
-            'redirect' => route('dashboard.services.edit', $service)
-        ]);
+        // Get the tab from request or default to basic
+        $tab = $request->input('active_tab', 'basic');
+        
+        return redirect()->route('dashboard.services.edit', [$service, 'tab' => $tab])
+            ->with('success', 'Service updated successfully.');
     }
 
-    public function destroy(Service $service): JsonResponse
+    public function destroy(Service $service): RedirectResponse
     {
         $this->service->delete($service);
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Service deleted successfully.',
-            'redirect' => route('dashboard.services.index')
-        ]);
+        return redirect()->route('dashboard.services.index')
+            ->with('success', 'Service deleted successfully.');
     }
 
     public function reorder(ServiceReorderRequest $request): JsonResponse
@@ -107,14 +103,11 @@ class ServiceController extends BaseController
         ]);
     }
 
-    public function clone(Service $service): JsonResponse
+    public function clone(Service $service): RedirectResponse
     {
         $newService = $this->service->clone($service);
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Service cloned successfully.',
-            'redirect' => route('dashboard.services.edit', $newService)
-        ]);
+        return redirect()->route('dashboard.services.edit', $newService)
+            ->with('success', 'Service cloned successfully.');
     }
 }

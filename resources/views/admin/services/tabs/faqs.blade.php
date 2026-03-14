@@ -1,6 +1,17 @@
 @props(['service' => null])
 
-<div x-data="faqsManager({{ json_encode(old('faqs', $service->faqs ?? [])) }})">
+@php
+    // Get faqs data - prefer old input if available (after validation error), otherwise use service relationship
+    $faqsData = old('faqs');
+    if (empty($faqsData) && $service && $service->faqs) {
+        $faqsData = $service->faqs->toArray();
+    }
+    if (empty($faqsData)) {
+        $faqsData = [];
+    }
+@endphp
+
+<div x-data="faqsManager({{ json_encode($faqsData) }})">
     <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Frequently Asked Questions</h3>
         <button type="button" 

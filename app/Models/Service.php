@@ -42,11 +42,11 @@ class Service extends Model implements HasMedia
 
     protected static function booted()
     {
-        static::creating(function ($service) {
-            if (auth()->check()) {
-                $service->user_id = auth()->id();
-            }
-        });
+        // static::creating(function ($service) {
+        //     if (auth()->check()) {
+        //         $service->user_id = auth()->id();
+        //     }
+        // });
     }
 
     public function registerMediaCollections(): void

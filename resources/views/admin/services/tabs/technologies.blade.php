@@ -1,6 +1,17 @@
 @props(['service' => null])
 
-<div x-data="technologiesManager({{ json_encode(old('technologies', $service->technologies ?? [])) }})">
+@php
+    // Get technologies data - prefer old input if available (after validation error), otherwise use service relationship
+    $technologiesData = old('technologies');
+    if (empty($technologiesData) && $service && $service->technologies) {
+        $technologiesData = $service->technologies->toArray();
+    }
+    if (empty($technologiesData)) {
+        $technologiesData = [];
+    }
+@endphp
+
+<div x-data="technologiesManager({{ json_encode($technologiesData) }})">
     <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Technologies Used</h3>
         <button type="button" 

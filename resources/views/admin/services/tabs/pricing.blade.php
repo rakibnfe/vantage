@@ -1,6 +1,17 @@
 @props(['service' => null])
 
-<div x-data="pricingManager({{ json_encode(old('pricing_models', $service->pricingModels ?? [])) }})">
+@php
+    // Get pricing models data - prefer old input if available (after validation error), otherwise use service relationship
+    $pricingData = old('pricing_models');
+    if (empty($pricingData) && $service && $service->pricingModels) {
+        $pricingData = $service->pricingModels->toArray();
+    }
+    if (empty($pricingData)) {
+        $pricingData = [];
+    }
+@endphp
+
+<div x-data="pricingManager({{ json_encode($pricingData) }})">
     <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Pricing Models</h3>
         <button type="button" 

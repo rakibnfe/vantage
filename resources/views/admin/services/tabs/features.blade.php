@@ -1,6 +1,17 @@
 @props(['service' => null])
 
-<div x-data="featuresManager({{ json_encode(old('features', $service->features ?? [])) }})">
+@php
+    // Get features data - prefer old input if available (after validation error), otherwise use service relationship
+    $featuresData = old('features');
+    if (empty($featuresData) && $service && $service->features) {
+        $featuresData = $service->features->toArray();
+    }
+    if (empty($featuresData)) {
+        $featuresData = [];
+    }
+@endphp
+
+<div x-data="featuresManager({{ json_encode($featuresData) }})">
     <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Service Features</h3>
         <button type="button" 
